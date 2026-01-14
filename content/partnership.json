@@ -1,0 +1,155 @@
+{
+    "hero": {
+        "titlePrefix": "Unlock Passive Wealth with",
+        "titleHighlight": "AI-Driven Renovations",
+        "subtitle": "We identify the deals, manage the contractors, and handle the sale. You provide the capital and collect the profit. Experience hands-free real estate investing.",
+        "ctaStart": "Start Partnership",
+        "ctaCaseStudies": "View Case Studies",
+        "heroImage": "/images/partnership/hero-bg.jpg",
+        "trustedText": "Trusted by 500+ investors",
+        "trustedAvatars": [
+            "/images/partnership/avatar-1.jpg",
+            "/images/partnership/avatar-2.jpg",
+            "/images/partnership/avatar-3.jpg"
+        ]
+    },
+    "journey": {
+        "title": "The Journey: We Manage, You Profit",
+        "steps": [
+            {
+                "icon": "analytics",
+                "title": "AI Assessment & Acquisition",
+                "description": "Our proprietary AI algorithms scan thousands of listings to identify undervalued properties with specific renovation potential. We lock down the deal before it hits the mass market.",
+                "image": "/images/partnership/journey-1.jpg"
+            },
+            {
+                "icon": "construction",
+                "title": "Expert Renovation Management",
+                "description": "No late night calls from contractors. We handle all permits, materials, and construction management using our vetted network of partners to force appreciation quickly.",
+                "image": "/images/partnership/journey-2.jpg"
+            },
+            {
+                "icon": "currency_exchange",
+                "title": "Profit Distribution",
+                "description": "Once the renovation is complete, the property is sold or refinanced. The initial capital is returned, and the net profits are split transparently.",
+                "image": "/images/partnership/journey-3.jpg"
+            }
+        ]
+    },
+    "valueStrategies": {
+        "title": "Value-Add Strategies",
+        "subtitle": "Our playbook focuses on high-ROI improvements that modern buyers demand, ensuring maximum returns for your investment.",
+        "items": [
+            {
+                "icon": "brush",
+                "title": "Cosmetic Lift",
+                "description": "Paint, flooring, and fixtures. Low cost, high impact updates that transform look and feel, significantly increasing appeal and market value.",
+                "roi": "Est. ROI: 15-20%"
+            },
+            {
+                "icon": "home_work",
+                "title": "ADU Addition",
+                "description": "Adding Accessory Dwelling Units to increase square footage and rental income potential, unlocking new revenue streams and boosting property value.",
+                "roi": "Est. ROI: 25-35%"
+            },
+            {
+                "icon": "nest_cam_iq_outdoor",
+                "title": "Smart Home Tech",
+                "description": "Integration of smart thermostats, security, and lighting to appeal to tech-savvy buyers, enhancing convenience and modern living standards.",
+                "roi": "Est. ROI: 10-15%"
+            },
+            {
+                "icon": "energy_savings_leaf",
+                "title": "Energy Efficiency",
+                "description": "Window replacements, insulation upgrades, and solar readiness to reduce long-term costs, appealing to environmentally conscious buyers and renters.",
+                "roi": "Est. ROI: 12-18%"
+            }
+        ]
+    },
+    "profitStructure": {
+        "title": "Transparent Profit Structure",
+        "description": "We believe in aligning incentives. We only make money when you make money. Our profit-sharing model creates a true partnership where we handle the heavy lifting.",
+        "benefits": [
+            {
+                "icon": "account_balance",
+                "title": "100% Capital Return First",
+                "description": "Your initial investment is returned in full before any profits are split."
+            },
+            {
+                "icon": "pie_chart",
+                "title": "80/20 Profit Split",
+                "description": "Investors keep 80% of the net profit. We take 20% as a performance fee."
+            },
+            {
+                "icon": "verified",
+                "title": "No Hidden Management Fees",
+                "description": "We don't charge monthly asset management fees that eat into your returns."
+            }
+        ],
+        "example": {
+            "title": "Example Deal Breakdown",
+            "costLabel": "Purchase & Reno Cost",
+            "costValue": "$450,000",
+            "saleLabel": "Sale Price",
+            "saleValue": "$600,000",
+            "netProfitLabel": "Net Profit",
+            "netProfitValue": "$150,000",
+            "investorShareLabel": "You Keep (80%)",
+            "investorShareValue": "$120,000",
+            "platformShareLabel": "Platform (20%)",
+            "platformShareValue": "$30,000"
+        }
+    },
+    "successStories": {
+        "title": "Partner Success Stories",
+        "items": [
+            {
+                "quote": "I had the capital but zero time to manage a reno. AI PropInvest handled everything. The reporting was transparent and the payout was exactly as predicted. Truly passive income!",
+                "name": "Sarah Jenkins",
+                "profit": "Realized Profit: $42,500",
+                "avatar": "/images/partnership/testimonial-1.jpg"
+            },
+            {
+                "quote": "Their value-add strategy for adding an ADU was brilliant. It increased the property value significantly more than a standard cosmetic flip. Impressed with the foresight.",
+                "name": "Michael Chen",
+                "profit": "Realized Profit: $68,200",
+                "avatar": "/images/partnership/testimonial-2.jpg"
+            },
+            {
+                "quote": "Professional from start to finish. The AI assessment was spot on regarding the neighborhood appreciation. Highly recommend to anyone looking for hands-off investment growth.",
+                "name": "Elena Rodriguez",
+                "profit": "Realized Profit: $35,900",
+                "avatar": "/images/partnership/testimonial-3.jpg"
+            }
+        ]
+    },
+    "leadForm": {
+        "title": "Ready to start your profit journey?",
+        "subtitle": "Join our exclusive list of partners. We only take on 10 new investors per month to ensure quality control and maximum attention.",
+        "fields": {
+            "name": {
+                "label": "Full Name",
+                "placeholder": "John Doe"
+            },
+            "email": {
+                "label": "Email Address",
+                "placeholder": "john@example.com"
+            },
+            "phone": {
+                "label": "Phone Number",
+                "placeholder": "+1 (555) 000-0000"
+            },
+            "budget": {
+                "label": "Investment Budget",
+                "options": [
+                    "$50k - $100k",
+                    "$100k - $250k",
+                    "$250k - $500k",
+                    "$500k+"
+                ]
+            }
+        },
+        "submitText": "Request Partnership Info",
+        "disclaimer": "By submitting this form, you agree to our terms. Your information is secure."
+    }
+}

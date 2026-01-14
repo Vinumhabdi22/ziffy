@@ -1,0 +1,460 @@
+{
+    "header": {
+        "breadcrumbs": [
+            {
+                "label": "Marketplace",
+                "href": "/listings"
+            },
+            {
+                "label": "All Locations",
+                "href": "#"
+            }
+        ],
+        "title": "Investment Properties Marketplace",
+        "subtitle": "Browse our exclusive list of vetted investment opportunities.",
+        "count": "142 Listings found"
+    },
+    "filters": {
+        "status": [
+            "Active",
+            "Pending",
+            "Sold"
+        ],
+        "priceRange": [
+            "Under $100k",
+            "$100k - $500k",
+            "$500k - $1M",
+            "$1M+"
+        ],
+        "propertyType": [
+            "Single Family",
+            "Multi Family",
+            "Commercial",
+            "Land"
+        ],
+        "capRate": [
+            "3% - 5%",
+            "5% - 7%",
+            "7% - 9%",
+            "9%+"
+        ]
+    },
+    "listings": [
+        {
+            "id": "1",
+            "address": "123 Main St",
+            "city": "Brooklyn",
+            "state": "NY",
+            "zip": "11201",
+            "price": "$850,000",
+            "beds": "3",
+            "baths": "2",
+            "sqft": "1,200",
+            "rent": "$4,200",
+            "roi": "8.5%",
+            "capRate": "6.2%",
+            "image": "/images/listings/prop1.jpg",
+            "badge": "AI-Verified",
+            "badgeColor": "teal",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop1.jpg",
+                    "/images/listings/prop2.jpg",
+                    "/images/listings/prop3.jpg",
+                    "/images/listings/prop4.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "2,500 sqft",
+                    "yearBuilt": "2015",
+                    "propertyType": "Single Family",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$850,000",
+                    "estimatedRent": "$4,200/mo",
+                    "grossYield": "5.9%",
+                    "noi": "$34,500/yr",
+                    "monthlyCashFlow": "$1,250",
+                    "capRate": "6.2%",
+                    "cashOnCash": "8.5%",
+                    "totalReturn5Yr": "42%",
+                    "roi": "8.5%"
+                },
+                "financials": {
+                    "grossIncome": "$50,400",
+                    "expenses": {
+                        "tax": "$6,500",
+                        "insurance": "$1,200",
+                        "maintenance": "$2,500",
+                        "management": "$4,000",
+                        "total": "$14,200"
+                    },
+                    "netOperatingIncome": "$36,200",
+                    "debtService": "$21,200",
+                    "annualCashFlow": "$15,000"
+                },
+                "description": "This stunning renovated single-family home in the heart of Brooklyn offers a perfect blend of modern luxury and classic charm. Featuring hardwood floors, a chef's kitchen with stainless steel appliances, and a private backyard oasis. High demand rental area ensures low vacancy rates.",
+                "features": [
+                    "Central Air Conditioning",
+                    "Hardwood Floors",
+                    "Stainless Steel Appliances",
+                    "Private Backyard",
+                    "Washer/Dryer In-Unit",
+                    "Smart Home Technology"
+                ],
+                "location": {
+                    "lat": 40.7001,
+                    "lng": -73.9902,
+                    "neighborhood": "Brooklyn Heights",
+                    "nearby": [
+                        "Subway Station (0.2 mi)",
+                        "City Park (0.5 mi)",
+                        "Whole Foods (0.8 mi)"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "2",
+            "address": "45 Park Avenue",
+            "city": "Manhattan",
+            "state": "NY",
+            "zip": "10016",
+            "price": "$1,200,000",
+            "beds": "2",
+            "baths": "2",
+            "sqft": "950",
+            "rent": "$5,800",
+            "roi": "7.2%",
+            "capRate": "5.8%",
+            "image": "/images/listings/prop2.jpg",
+            "badge": "High Yield",
+            "badgeColor": "indigo",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop2.jpg",
+                    "/images/listings/prop3.jpg",
+                    "/images/listings/prop4.jpg",
+                    "/images/listings/prop1.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "N/A (Condo)",
+                    "yearBuilt": "2018",
+                    "propertyType": "Condo",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$1,200,000",
+                    "estimatedRent": "$5,800/mo",
+                    "grossYield": "5.8%",
+                    "noi": "$48,000/yr",
+                    "monthlyCashFlow": "$950",
+                    "capRate": "5.8%",
+                    "cashOnCash": "7.2%",
+                    "totalReturn5Yr": "35%",
+                    "roi": "7.2%"
+                },
+                "financials": {
+                    "grossIncome": "$69,600",
+                    "expenses": {
+                        "tax": "$12,000",
+                        "insurance": "$1,500",
+                        "maintenance": "$3,000",
+                        "management": "$5,100",
+                        "total": "$21,600"
+                    },
+                    "netOperatingIncome": "$48,000",
+                    "debtService": "$36,600",
+                    "annualCashFlow": "$11,400"
+                },
+                "description": "Luxurious Park Avenue condo with breathtaking city views. Floor-to-ceiling windows, marble bathrooms, and top-tier building amenities including a doorman, gym, and rooftop lounge. Prime investment opportunity in one of the most sought-after zip codes.",
+                "features": [
+                    "Doorman Building",
+                    "Gym & Fitness Center",
+                    "Rooftop Lounge",
+                    "Floor-to-Ceiling Windows",
+                    "Marble Bathrooms",
+                    "Pet Friendly"
+                ],
+                "location": {
+                    "lat": 40.7490,
+                    "lng": -73.9790,
+                    "neighborhood": "Murray Hill",
+                    "nearby": [
+                        "Grand Central Terminal (0.3 mi)",
+                        "Bryant Park (0.5 mi)"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "3",
+            "address": "88 Hudson St",
+            "city": "Jersey City",
+            "state": "NJ",
+            "zip": "07302",
+            "price": "$620,000",
+            "beds": "2",
+            "baths": "1",
+            "sqft": "850",
+            "rent": "$3,100",
+            "roi": "9.1%",
+            "capRate": "7.0%",
+            "image": "/images/listings/prop3.jpg",
+            "badge": "AI-Verified",
+            "badgeColor": "teal",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop3.jpg",
+                    "/images/listings/prop1.jpg",
+                    "/images/listings/prop2.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "N/A",
+                    "yearBuilt": "2010",
+                    "propertyType": "Apartment",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$620,000",
+                    "estimatedRent": "$3,100/mo",
+                    "grossYield": "6.0%",
+                    "noi": "$26,000/yr",
+                    "monthlyCashFlow": "$800",
+                    "capRate": "7.0%",
+                    "cashOnCash": "9.1%",
+                    "totalReturn5Yr": "45%",
+                    "roi": "9.1%"
+                },
+                "financials": {
+                    "grossIncome": "$37,200",
+                    "expenses": {
+                        "tax": "$5,000",
+                        "insurance": "$800",
+                        "maintenance": "$2,000",
+                        "management": "$3,400",
+                        "total": "$11,200"
+                    },
+                    "netOperatingIncome": "$26,000",
+                    "debtService": "$16,400",
+                    "annualCashFlow": "$9,600"
+                },
+                "description": "Modern apartment steps from the waterfront. Quick PATH train access to Manhattan makes this a commuter's dream. High rental demand and appreciation potential.",
+                "features": [
+                    "Waterfront Views",
+                    "Close to Transit",
+                    "Modern Kitchen"
+                ],
+                "location": {
+                    "lat": 40.7178,
+                    "lng": -74.0431,
+                    "neighborhood": "Exchange Place",
+                    "nearby": [
+                        "PATH Station (0.1 mi)"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "4",
+            "address": "210 W 96th St",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10025",
+            "price": "$925,000",
+            "beds": "3",
+            "baths": "2",
+            "sqft": "1,100",
+            "rent": "$4,800",
+            "roi": "6.8%",
+            "capRate": "5.1%",
+            "image": "/images/listings/prop4.jpg",
+            "badge": "New Listing",
+            "badgeColor": "gray",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop4.jpg",
+                    "/images/listings/prop2.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "N/A",
+                    "yearBuilt": "1998",
+                    "propertyType": "Co-op",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$925,000",
+                    "estimatedRent": "$4,800/mo",
+                    "grossYield": "6.2%",
+                    "noi": "$38,000/yr",
+                    "monthlyCashFlow": "$500",
+                    "capRate": "5.1%",
+                    "cashOnCash": "6.8%",
+                    "totalReturn5Yr": "30%",
+                    "roi": "6.8%"
+                },
+                "financials": {
+                    "grossIncome": "$57,600",
+                    "expenses": {
+                        "tax": "$10,000",
+                        "insurance": "$1,000",
+                        "maintenance": "$3,000",
+                        "management": "$5,600",
+                        "total": "$19,600"
+                    },
+                    "netOperatingIncome": "$38,000",
+                    "debtService": "$32,000",
+                    "annualCashFlow": "$6,000"
+                },
+                "description": "Classic Upper West Side charm. Spacious layout with high ceilings.",
+                "features": [
+                    "Pre-war Details",
+                    "High Ceilings",
+                    "Near Park"
+                ],
+                "location": {
+                    "lat": 40.7940,
+                    "lng": -73.9710,
+                    "neighborhood": "Upper West Side",
+                    "nearby": [
+                        "Central Park (2 blocks)"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "5",
+            "address": "34 Queens Blvd",
+            "city": "Queens",
+            "state": "NY",
+            "zip": "11104",
+            "price": "$750,000",
+            "beds": "4",
+            "baths": "3",
+            "sqft": "1,800",
+            "rent": "$3,900",
+            "roi": "7.9%",
+            "capRate": "6.0%",
+            "image": "/images/listings/prop1.jpg",
+            "badge": "AI-Verified",
+            "badgeColor": "teal",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop1.jpg",
+                    "/images/listings/prop3.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "3,000 sqft",
+                    "yearBuilt": "2005",
+                    "propertyType": "Multi Family",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$750,000",
+                    "estimatedRent": "$3,900/mo",
+                    "grossYield": "6.2%",
+                    "noi": "$32,000/yr",
+                    "monthlyCashFlow": "$900",
+                    "capRate": "6.0%",
+                    "cashOnCash": "7.9%",
+                    "totalReturn5Yr": "38%",
+                    "roi": "7.9%"
+                },
+                "financials": {
+                    "grossIncome": "$46,800",
+                    "expenses": {
+                        "tax": "$7,000",
+                        "insurance": "$1,300",
+                        "maintenance": "$3,500",
+                        "management": "$3,000",
+                        "total": "$14,800"
+                    },
+                    "netOperatingIncome": "$32,000",
+                    "debtService": "$21,200",
+                    "annualCashFlow": "$10,800"
+                },
+                "description": "Great multi-family investment in Queens.",
+                "features": [
+                    "Multi-family",
+                    "Recent Reno",
+                    "Garage"
+                ],
+                "location": {
+                    "lat": 40.7430,
+                    "lng": -73.9200,
+                    "neighborhood": "Sunnyside",
+                    "nearby": [
+                        "7 Train"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "6",
+            "address": "550 Vanderbilt Ave",
+            "city": "Brooklyn",
+            "state": "NY",
+            "zip": "11238",
+            "price": "$1,100,000",
+            "beds": "2",
+            "baths": "2",
+            "sqft": "1,050",
+            "rent": "$5,200",
+            "roi": "7.4%",
+            "capRate": "5.9%",
+            "image": "/images/listings/prop3.jpg",
+            "badge": "High Yield",
+            "badgeColor": "indigo",
+            "details": {
+                "gallery": [
+                    "/images/listings/prop3.jpg",
+                    "/images/listings/prop4.jpg"
+                ],
+                "quickStats": {
+                    "lotSize": "N/A",
+                    "yearBuilt": "2019",
+                    "propertyType": "Condo",
+                    "status": "Active"
+                },
+                "investmentMetrics": {
+                    "purchasePrice": "$1,100,000",
+                    "estimatedRent": "$5,200/mo",
+                    "grossYield": "5.7%",
+                    "noi": "$42,000/yr",
+                    "monthlyCashFlow": "$850",
+                    "capRate": "5.9%",
+                    "cashOnCash": "7.4%",
+                    "totalReturn5Yr": "33%",
+                    "roi": "7.4%"
+                },
+                "financials": {
+                    "grossIncome": "$62,400",
+                    "expenses": {
+                        "tax": "$11,000",
+                        "insurance": "$1,400",
+                        "maintenance": "$3,000",
+                        "management": "$5,000",
+                        "total": "$20,400"
+                    },
+                    "netOperatingIncome": "$42,000",
+                    "debtService": "$31,800",
+                    "annualCashFlow": "$10,200"
+                },
+                "description": "Pacific Park's premier condo building.",
+                "features": [
+                    "Luxury Building",
+                    "Concierge",
+                    "Gym"
+                ],
+                "location": {
+                    "lat": 40.6800,
+                    "lng": -73.9680,
+                    "neighborhood": "Prospect Heights",
+                    "nearby": [
+                        "Barclays Center"
+                    ]
+                }
+            }
+        }
+    ]
+}

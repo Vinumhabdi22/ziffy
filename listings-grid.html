@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Regional Property Listings</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f49bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a202c",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111318] dark:text-gray-100 transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Navigation Bar (Simplified for context) -->
+<nav class="bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">real_estate_agent</span>
+</div>
+<span class="text-xl font-bold tracking-tight">InvestAI</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+<span class="material-symbols-outlined text-gray-500">notifications</span>
+</button>
+<div class="h-8 w-8 bg-gray-200 rounded-full bg-cover bg-center" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPwK3qU7paTYfbN74FBqTzQ8v5cFAJx_D3ej78gYuPxHBcAHzL6sh5xNdZaFscU7ojCmh4LLSHLyQI3HRzcHejyJKcHktLN3ZhM8l7VUU73kvnYPUCzRKCayu_DIiFLROko88ysEHmAZxeNgSOx7fdIWgfRaAOXOiEiyW0LFAGdn7O_0Qh3PtQC9f6Tn76pQa2XZAXUq4_OumwQOiEola7zNOrgNYNdAf7pGDNa_MuF4Yw-ndT0fw1UuA3_ynkl3-BloURPT4u-c69');"></div>
+</div>
+</nav>
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5 px-4 md:px-8 lg:px-12">
+<div class="layout-content-container flex flex-col w-full max-w-[1280px] flex-1">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 px-4 py-2 text-sm">
+<a class="text-[#616f89] hover:text-primary transition-colors font-medium leading-normal" href="#">USA</a>
+<span class="text-[#616f89] font-medium leading-normal">/</span>
+<a class="text-[#616f89] hover:text-primary transition-colors font-medium leading-normal" href="#">New York</a>
+<span class="text-[#616f89] font-medium leading-normal">/</span>
+<span class="text-[#111318] dark:text-white font-semibold leading-normal">New York City</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 px-4 py-4 mb-2">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-[#111318] dark:text-white text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em]">
+                                Investment Properties in New York, NY
+                            </h1>
+<p class="text-[#616f89] dark:text-gray-400 text-base font-normal leading-normal">
+                                142 Listings found matching your criteria
+                            </p>
+</div>
+<button class="hidden md:flex items-center gap-2 text-primary font-bold hover:underline">
+<span class="material-symbols-outlined text-sm">save</span> Save Search
+                        </button>
+</div>
+<!-- Filters & Sorting -->
+<div class="sticky top-[73px] z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm py-4 border-b border-transparent transition-all">
+<div class="px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<!-- Left Filters -->
+<div class="flex gap-2 flex-wrap items-center">
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark px-4 hover:border-primary/50 transition-all shadow-sm">
+<span class="text-[#111318] dark:text-gray-200 text-sm font-medium">Status</span>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark px-4 hover:border-primary/50 transition-all shadow-sm">
+<span class="text-[#111318] dark:text-gray-200 text-sm font-medium">Price Range</span>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark px-4 hover:border-primary/50 transition-all shadow-sm">
+<span class="text-[#111318] dark:text-gray-200 text-sm font-medium">Property Type</span>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="group flex h-9 items-center justify-center gap-x-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark px-4 hover:border-primary/50 transition-all shadow-sm">
+<span class="text-[#111318] dark:text-gray-200 text-sm font-medium">Cap Rate</span>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary text-[20px]">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-full border border-dashed border-gray-300 dark:border-gray-600 bg-transparent px-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+<span class="material-symbols-outlined text-gray-500 text-[18px]">tune</span>
+<span class="text-gray-600 dark:text-gray-400 text-sm font-medium">More Filters</span>
+</button>
+</div>
+<!-- Right Sort -->
+<div class="flex items-center gap-2 w-full md:w-auto justify-end">
+<span class="text-gray-500 text-sm hidden sm:inline">Sort by:</span>
+<div class="relative group cursor-pointer">
+<button class="flex h-9 items-center justify-between gap-x-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 px-3 min-w-[160px] shadow-sm">
+<span class="text-primary font-bold text-sm">Highest Yield</span>
+<span class="material-symbols-outlined text-primary text-[20px]">sort</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Grid -->
+<div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<!-- Image Section -->
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern suburban house with manicured lawn" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC81aFGuoVEG1_t6nLDG2-xPi4zhizk6obURSyNhsCQ5B8rEo6J7g9EauBMCsDlwwn2Grdc3qc6SRfqg1o-ACmmCOzJ9L5B_qFlBu0nfQy0ZxB2Yi0SrjxonOJsx98rS1EBdfn3Xkxq716H_iP1TCUZ3uvtBfO_mVW-fvKDJ0plfVcN_H5LWEO4MxglYMz4G0PLPa12jYfb4Bjse2kwepLz9hdXYGUt5KeQGEakS-6ayRMLlBQoCckkB4CZF5EMTELYUSfyDXqL7Z50");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-teal-500/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm ring-1 ring-inset ring-white/20">
+<span class="material-symbols-outlined text-[14px] mr-1">verified</span> AI-Verified
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<!-- Content Section -->
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">123 Main St</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Brooklyn, NY 11201</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$850,000</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">3</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">2</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">1,200</span> Sqft
+                                    </div>
+</div>
+<!-- Financial Footer -->
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$4,200</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">8.5%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">6.2%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern apartment interior living room with large window" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAXVJPYwVxbG3ZHpiZiC59hJOacbR4Iwy66G2H-INiUVOX2GsVNY7mchOVGppeapDYzqExj_gpwdSZyx0nAJz7uMEGhEQBaqvxmWRR4ZqV038kCMMSnmC6vC8JDecjbxC9XOdENRoJcQw9_Rtv616qOqipuu7COaJY0BPU08-QjR9uk4GDKCRpl11fKUXSuU9aZsItzN_Zwe2ErlX9BGlQdxlBQHtnty426o7FDHiue4s5iRsXJ5KE6ZV0Gnps5q96i5A9XG4lBIDfJ");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-indigo-600/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm ring-1 ring-inset ring-white/20">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> High Yield
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">45 Park Avenue</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Manhattan, NY 10016</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$1.2M</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">2</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">2</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">950</span> Sqft
+                                    </div>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$5,800</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">7.2%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">5.8%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Luxury townhouse exterior with modern architecture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5JLVEyWAilJA1xEWGnDJ8CWQPuuGbcV3JnGrtta2AE-hGo57GmzrGaHW5xeEfw0b2B_kFEfSB-C4PNeYXRrVNyg3ieVSuEWgIFU-pLPx1h0anss98r2hS0rFJ-m9xoc6sa-Cht-8GdSaABmxaVDSwescVcD1nXrcuW-Jkot9AMRQRwEk2WODwvJXeBFV6NheSMP6qtPApJHy-D4zd0UkcOl-KY2WCkO8k6QpRZBbX2ZqIQ3zVG7TiVb-0rXepBal8dryuAHN2loDf");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-teal-500/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm ring-1 ring-inset ring-white/20">
+<span class="material-symbols-outlined text-[14px] mr-1">verified</span> AI-Verified
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">88 Hudson St</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Jersey City, NJ 07302</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$620,000</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">2</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">1</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">850</span> Sqft
+                                    </div>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$3,100</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">9.1%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">7.0%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern building facade with large glass windows" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCZFbKJULuPUbOOWmfdTwPi7RKwdWLfdR7RBno3h-BuFkXtwk-GOyX7u_9-XBo_UCNjtE60adrgIlWFy_zdIW0oUKaC9tNnuvHq5YmCfIzbhUU6d8vhlDsJoRsV7f-QO-wUlxqui75USu_LX25bu2GDuqabhW0Qp7-MT7IHkMe932AN_Brrq1Rbn3mRHwjmp8FqvJAPrL49tvN8D0MipEEa3L6Hcz3Sa7W7JU9UCJRCOuiccRrDiVcQEGUQN2WQ7yLa1tCq3VO0adj1");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<!-- No verification badge, regular listing -->
+<span class="inline-flex items-center rounded-md bg-gray-800/80 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+                                        New Listing
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">210 W 96th St</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">New York, NY 10025</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$925,000</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">3</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">2</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">1,100</span> Sqft
+                                    </div>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$4,800</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">6.8%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">5.1%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Cozy white house with green garden" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGEHoy61dpGorPLDzTtDKCMmaI3IS6k1BGy3byDw3PVJ3_ubsHD-Jn9O0dyaBrL4mb3_eX-vu0w5xxHRw-_LHdneX6mgbl9RG2hhANpEJwK2F_zqX1O-uiHaDCKbtFuwQR_0DI3t8-P906OKf7kob7FEKklC8yVOHAVc3-dMOGLDc0L6qruzf0RlFKDY1bf8EEJQgLJHOUxezj_EpBaEbx5A3WucXvk4ZC4KZdYvap9Y20Xykd4C3m7rNDehxVzb8ksmOqHZg6eVB-");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-teal-500/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm ring-1 ring-inset ring-white/20">
+<span class="material-symbols-outlined text-[14px] mr-1">verified</span> AI-Verified
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">34 Queens Blvd</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Queens, NY 11104</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$750,000</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">4</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">3</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">1,800</span> Sqft
+                                    </div>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$3,900</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">7.9%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">6.0%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white dark:bg-surface-dark hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="relative w-full aspect-[16/9] bg-gray-100 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Interior of a modern kitchen with island" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBl0sRYT3PCgf1mqn6IW-eToIn30AaLj8YXF1bL2wF6fPAkeppVVAQyMNyP2TmErYlnNxIgMBEDmDFhT4k9IMz3JYQ-UmhV9xQR6HA2IqrNT5e-wTWra61Na7Z-53JYWQq-YGpMDbRjibY7KoeeHvnq7HHxlZvesievtbovYXrPAu0eyxkgpSUQoWKCuUFWPZHA-eb2QeESZi3HH__LIwImVNDE0KmnNSfL0_8U6P5bO_81hmQSsCmktYKcn-EMm5i0GIpkd7RDm2DJ");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-indigo-600/90 backdrop-blur-sm px-2.5 py-1 text-xs font-bold text-white shadow-sm ring-1 ring-inset ring-white/20">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> High Yield
+                                    </span>
+</div>
+<button class="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-black/50 text-gray-400 hover:text-red-500 transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="flex flex-col p-5 grow">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-tight">550 Vanderbilt Ave</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Brooklyn, NY 11238</p>
+</div>
+<p class="text-primary text-xl font-extrabold">$1.1M</p>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 my-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bed</span>
+<span class="font-semibold">2</span> Bed
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">bathtub</span>
+<span class="font-semibold">2</span> Bath
+                                    </div>
+<div class="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-gray-400">square_foot</span>
+<span class="font-semibold">1,050</span> Sqft
+                                    </div>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+<div class="grid grid-cols-3 gap-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Rent</span>
+<span class="text-[#111318] dark:text-white text-sm font-bold">$5,200</span>
+</div>
+<div class="flex flex-col items-center border-r border-gray-200 dark:border-gray-700">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">ROI</span>
+<span class="text-green-600 dark:text-green-400 text-sm font-extrabold">7.4%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[11px] uppercase tracking-wide text-gray-500 font-semibold">Cap Rate</span>
+<span class="text-primary text-sm font-bold">5.9%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="flex justify-center py-8">
+<button class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-[#111318] dark:text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                            Load More Properties
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

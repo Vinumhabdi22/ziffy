@@ -1,0 +1,125 @@
+{
+    "hero": {
+        "assetClass": "Asset Class: Residential Debt",
+        "headline": "Earn 8-11% Backed by American Real Estate",
+        "description": "Discover the stability of Single-Family Residential (SFR) Notes. Secured debt investments that offer consistent monthly income without the headaches of being a landlord.",
+        "ctaPrimary": "View Available Notes",
+        "ctaSecondary": "How It Works",
+        "verificationText": "Vetted by EstateAI Proprietary Algorithm",
+        "heroImage": "/images/sfr/hero-bg.jpg",
+        "activeNote": {
+            "label": "Active Note",
+            "address": "124 Maple Drive, Austin, TX",
+            "stats": "Yield: 9.2% • LTV: 65%"
+        }
+    },
+    "benefits": {
+        "title": "Why Invest in SFR Notes?",
+        "items": [
+            {
+                "icon": "verified_user",
+                "title": "Secured by Real Estate",
+                "description": "Your investment is collateralized by the underlying property. If a borrower defaults, the asset backs your principal, providing a safety net stocks can't offer."
+            },
+            {
+                "icon": "payments",
+                "title": "Passive Income Stream",
+                "description": "Receive monthly interest payments directly to your account. Enjoy the cash flow of real estate without tenants, toilets, or trash."
+            },
+            {
+                "icon": "smart_toy",
+                "title": "AI-Vetted Opportunities",
+                "description": "Our proprietary AI analyzes 50+ data points including local market trends and borrower history to grade every note before it hits the marketplace."
+            }
+        ]
+    },
+    "comparisonSection": {
+        "title": "Bank Model vs. Investor Model",
+        "description": "Why let the bank keep the profits? See how direct note investing shifts the advantage to you by cutting out the middleman.",
+        "traditionalBanking": {
+            "icon": "account_balance",
+            "title": "Traditional Banking",
+            "subtitle": "You are the depositor. The bank leverages your money.",
+            "points": [
+                {
+                    "text": "You deposit money at",
+                    "highlight": "~0.5% APY"
+                },
+                {
+                    "text": "Bank lends at",
+                    "highlight": "7.0%+"
+                },
+                {
+                    "text": "Bank keeps the spread (profit)"
+                }
+            ]
+        },
+        "directInvesting": {
+            "icon": "paid",
+            "title": "Direct Note Investing",
+            "subtitle": "You are the bank. You own the debt asset directly.",
+            "badge": "RECOMMENDED",
+            "points": [
+                {
+                    "text": "You lend directly to homeowner"
+                },
+                {
+                    "text": "Secured by 1st lien on property"
+                },
+                {
+                    "text": "You earn the full",
+                    "highlight": "8-11% APY"
+                }
+            ]
+        }
+    },
+    "howItWorks": {
+        "title": "How It Works",
+        "steps": [
+            {
+                "num": "1",
+                "title": "Browse & Select",
+                "description": "Explore our marketplace of pre-vetted notes. Filter by yield, location, LTV, and term length to find your match."
+            },
+            {
+                "num": "2",
+                "title": "Digital Due Diligence",
+                "description": "Review all documents, property valuations, and title reports instantly online. Complete the purchase with a secure digital signing."
+            },
+            {
+                "num": "3",
+                "title": "Earn Monthly",
+                "description": "Sit back as interest payments are deposited into your account every month. Track performance via your investor dashboard."
+            }
+        ]
+    },
+    "leadCapture": {
+        "title": "Access Exclusive Note Inventory",
+        "subtitle": "Create your free account to view detailed financials and start investing today.",
+        "fields": {
+            "firstName": {
+                "label": "First Name",
+                "placeholder": "Jane"
+            },
+            "lastName": {
+                "label": "Last Name",
+                "placeholder": "Doe"
+            },
+            "email": {
+                "label": "Email Address",
+                "placeholder": "jane@example.com"
+            },
+            "target": {
+                "label": "Target Investment",
+                "options": [
+                    "$10,000 - $50,000",
+                    "$50,000 - $100,000",
+                    "$100,000+"
+                ]
+            }
+        },
+        "accreditedLabel": "I am an accredited investor. (Optional - required for certain note classes)",
+        "submitText": "View Inventory",
+        "disclaimer": "By clicking above, you agree to our Terms of Service and Privacy Policy."
+    }
+}

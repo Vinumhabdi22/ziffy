@@ -1,0 +1,142 @@
+{
+  "hero": {
+    "title": "Grow Your Wealth with",
+    "titleHighlight": "Smart Investing",
+    "titleSuffix": "Made Simple",
+    "subtitle": "Join thousands of investors who trust our platform to build their financial future with confidence and ease.",
+    "ctaText": "View Premium Listings",
+    "ctaLink": "/listings",
+    "secondaryCtaText": "Investment Strategy",
+    "secondaryCtaLink": "/sfr",
+    "features": [
+      {
+        "icon": "check_circle",
+        "text": "Vetted Assets"
+      },
+      {
+        "icon": "check_circle",
+        "text": "Data-Driven"
+      },
+      {
+        "icon": "check_circle",
+        "text": "Instant Closing"
+      }
+    ],
+    "stats": {
+      "yieldLabel": "Projected Yield",
+      "yieldValue": "12.4%",
+      "yieldSub": "Net APY",
+      "scoreLabel": "AI Score",
+      "scoreValue": "98/100"
+    },
+    "heroImage": "/images/home/hero-bg.jpg"
+  },
+  "trustSection": {
+    "label": "Trusted By:",
+    "logos": [
+      "VANGUARD",
+      "BLACKROCK",
+      "INVITATION HOMES",
+      "AMHERST"
+    ]
+  },
+  "featuredListings": {
+    "header": {
+      "subtitle": "Premium Selection",
+      "title": "Featured AI-Selected Opportunities",
+      "ctaText": "View All Inventory",
+      "ctaLink": "/listings"
+    },
+    "items": [
+      {
+        "id": "1",
+        "isNew": true,
+        "matchScore": 98,
+        "price": "$445,000",
+        "image": "/images/listings/listing-1.jpg",
+        "title": "Modern Geometric Villa",
+        "location": "Austin, TX 78704",
+        "capRate": "8.5%",
+        "estRent": "$3,200",
+        "beds": 4,
+        "baths": 3,
+        "sqft": "2,400"
+      },
+      {
+        "id": "2",
+        "isNew": false,
+        "matchScore": 96,
+        "price": "$850,000",
+        "image": "/images/listings/listing-2.jpg",
+        "title": "Luxury Glass Estate",
+        "location": "Scottsdale, AZ 85251",
+        "capRate": "7.2%",
+        "estRent": "$5,800",
+        "beds": 5,
+        "baths": 4.5,
+        "sqft": "3,200"
+      },
+      {
+        "id": "3",
+        "isNew": false,
+        "matchScore": 92,
+        "price": "$395,000",
+        "image": "/images/listings/listing-3.jpg",
+        "title": "Tech Hub Rental",
+        "location": "Raleigh, NC 27601",
+        "capRate": "9.1%",
+        "estRent": "$2,950",
+        "beds": 3,
+        "baths": 2,
+        "sqft": "1,850"
+      },
+      {
+        "id": "4",
+        "isNew": true,
+        "matchScore": 99,
+        "price": "$620,000",
+        "image": "/images/listings/listing-4.jpg",
+        "title": "Executive Retreat",
+        "location": "Dallas, TX 75201",
+        "capRate": "7.8%",
+        "estRent": "$4,200",
+        "beds": 4,
+        "baths": 3,
+        "sqft": "2,800"
+      }
+    ]
+  },
+  "services": {
+    "header": {
+      "subtitle": "Diversify Your Portfolio",
+      "title": "Investment Pathways",
+      "description": "Select the strategy that aligns with your capital objectives."
+    },
+    "items": [
+      {
+        "title": "Buy Direct Assets",
+        "description": "Acquire Assets. Direct ownership of AI-vetted properties with projected high rental yields.",
+        "icon": "home_work",
+        "ctaText": "View Listings",
+        "ctaLink": "/listings",
+        "image": "/images/home/service-1.jpg"
+      },
+      {
+        "title": "Invest in SFR Notes",
+        "description": "Passive Income. Secured Single Family Rental Notes yielding 8-11% annually.",
+        "icon": "trending_up",
+        "ctaText": "Start Investing",
+        "ctaLink": "/sfr",
+        "image": "/images/home/service-2.jpg"
+      },
+      {
+        "title": "Partner for Profit",
+        "description": "Strategic Partnership. Joint ventures with transparent profit-sharing models for institutional scale.",
+        "icon": "handshake",
+        "ctaText": "Learn More",
+        "ctaLink": "/partnership",
+        "image": "/images/home/service-3.jpg"
+      }
+    ]
+  }
+}

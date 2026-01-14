@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Property Details &amp; Lead Capture - InvestAI</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13ec6d",
+              "primary-hover": "#0fd460",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102218",
+              "card-light": "#ffffff",
+              "card-dark": "#162e21",
+              "text-main": "#111814",
+              "text-muted": "#618972",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom Range Slider Styling for the theme */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #13ec6d;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #dbe6e0;
+            border-radius: 2px;
+        }
+        .dark input[type=range]::-webkit-slider-runnable-track {
+            background: #2a4034;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 bg-card-light dark:bg-card-dark border-b border-[#f0f4f2] dark:border-[#2a4034]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Logo & Nav -->
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-text-main dark:text-white">
+<div class="size-8 rounded bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<h2 class="text-lg font-bold tracking-tight">InvestAI</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-text-main dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Listings</a>
+<a class="text-text-main dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Market Analysis</a>
+<a class="text-text-main dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="text-text-main dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Agents</a>
+</nav>
+</div>
+<!-- Search & Profile -->
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-[#f0f4f2] dark:bg-[#1f3629] rounded-lg px-3 py-2 w-64">
+<span class="material-symbols-outlined text-text-muted text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full text-text-main dark:text-white placeholder:text-text-muted" placeholder="Search properties..." type="text"/>
+</div>
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-white dark:border-[#2a4034] shadow-sm" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAU_OQ-JBCoa0z6Jm7R1DytthswBucN2nbUO6TWjtjSmJgKKOP9yx3WybImY-rqYSixYa3GZsLV2QCRYEKUPiJmC7h36BvC01M_YRQlezRh8XgHyFuGbGd8u_BS6Ozxuo9H84q5tHcoWYIsCMyrYpXnNloVoc1ENyLcr0hkSOMPv7oi-SnzmKfMFx56jAp3O1qCjw2cSw1AmGsjexjK3jfbMVHU4rvxumzMsRcMa0GEqRDN-iL2RbAV1JvxeHdWq3_0--2vMUpXhVw');"></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Image Grid (Hero) -->
+<section class="mb-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-2 h-[400px] rounded-xl overflow-hidden">
+<!-- Main large image -->
+<div class="md:col-span-2 md:row-span-2 relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern house exterior with large glass windows and pool" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzZ470XSW2AQVj-Xvcg4_i2c0yO12CpmoPXvJ7weTBI5aFCowy9TKmqA78FtqcT2TfCBpTRpwVp3qUP7v5ID4ZLmzY9CQP2d1SBk7ih2tlP-5IeKLb9sQ0FteeBGw1AEfP8EOvdg2yyBsBnpSX9WKyn2jo4-zgbAzwix6uRGGa04XFrnxiEkAcxJIajyQXPP3_NKZMyTy2-Me2f0OFCqwRbdCjihBj2rc4VYkqUfDbthyjQL56RJhmD7g9k3TVSlhbKQl2d4TwREU');"></div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-white/90 dark:bg-black/70 backdrop-blur text-xs font-bold px-3 py-1 rounded-full text-text-main dark:text-white shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span> View Gallery
+                        </span>
+</div>
+</div>
+<!-- Secondary images -->
+<div class="hidden md:block bg-cover bg-center relative" data-alt="Spacious modern living room with bright natural light" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTeCasTHmRC-0uAvI4jhLWJW-EQqce0MEOfBUWW66UMYAR8gey79BV_-5Dzo3_6Nz_aOB5hD-B1XXR6ytS5Yquljhgm6OaHgfHfgxnNTbtJZlrhf8kgwZ6iX605ApV1YyBDRvmSPhbgAZl27J2Tb1LGmZd8lOAnLaYr6I24qE7L5NsHggU70Ge2dPxzCLrfjJqCiDWga95LdKFPT-9xKIfMda_M-9nTY6cdPcte1FNzqaEGL1RbAUVOUwN7gM1uu0Q0Poe68lLcQY');"></div>
+<div class="hidden md:block bg-cover bg-center relative" data-alt="Gourmet kitchen with marble island and pendant lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_VyUtRcDMs1c6CryW2cwCtGdquaZzIn435kY_VrXznRhCzDtRKfEYXtAqWo17o5lc1l9hNNejy-7DCKfLq4sLKW0mCwHfzr_h3xVDjZkq1uDWK99D7KGd6rAoNFBWYi5gCMS8rgMdqiRd63Vn4KTttXoXdXKvZUG6BBDESLVzsYJJktrYOHEYhXBpDAqjDhJGi_NdpOI_h9pwn7orvvNGl-K4F0EYZaR8HC7J3YWrwa5ZnaxSaO78IxHoFSB_4pIXI1AAYK-6nm4');"></div>
+<div class="hidden md:block bg-cover bg-center relative" data-alt="Master bedroom with minimalist design" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPKcA3xj8deBleYWBeliLllLNIuiCTvrfzg681tj0MOwViibAY8LBVGGx3hIjEd7j6ZY5UuNQknzf84dPHb6iezB8Z_Pv08odmiZFAtS6mndFkHTv0G6Skc6K3VOZKiRfQpqJSF4RT0wSgbU_2HV03mDvp2DFcrxR4gsSpdYdqws4rpjFh66v11Aftzu93tJ2v2TcEOGdoQ0-6NKG-OGfwxEE6TQ_2NGJrENDAf-g3le66B6te4n79hiRNi8txJV-5w6EI4emvTPQ');"></div>
+<div class="hidden md:block relative group cursor-pointer overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Backyard patio and garden area" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDrKKaRpW017LL3kswVtuK5ZvpaVRcFT5Uk4UIfxSOxFpHUakeUbsRPlPAII35ZaQFXLSA-bPI0a4x7DtK-3nhxncNjr4wsXWiSRh4zhMfYXRwLgIyc-6PNsDqTBtcic7TludbCBIfOh4MxrS5pZEk79qsLqO45TXQv9Ye6_h5Npu_ZSgqbj0qH7txESjMQNQaOA_4Hs7WBieQ-8LSrXH3L90_k_TreonqFSbENXNIiXmBd7kL-IvphmaDN5lFlVmjMGBnVMaO4g28');"></div>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/30 transition-colors">
+<span class="text-white font-bold text-lg">+12 More</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Layout -->
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Left Column: Details -->
+<div class="flex-1 w-full lg:w-2/3 flex flex-col gap-8">
+<!-- Header & Stats -->
+<div>
+<div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-primary/20 text-green-700 dark:text-primary text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wide">Active Listing</span>
+<span class="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wide flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">verified</span> Verified by AI
+                                </span>
+</div>
+<h1 class="text-3xl md:text-4xl font-black text-text-main dark:text-white tracking-tight mb-1">123 Innovation Blvd</h1>
+<p class="text-text-muted dark:text-gray-400 text-lg">Tech District, San Francisco, CA 94016</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-3xl font-black text-text-main dark:text-white">$1,450,000</p>
+<p class="text-sm text-text-muted dark:text-gray-400 font-medium">$7,850/sqft</p>
+</div>
+</div>
+<!-- Specs Bar -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-card-light dark:bg-card-dark rounded-xl border border-[#dbe6e0] dark:border-[#2a4034] shadow-sm">
+<div class="flex flex-col gap-1 p-2">
+<span class="text-text-muted text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">bed</span> Beds
+                            </span>
+<span class="text-xl font-bold text-text-main dark:text-white">4</span>
+</div>
+<div class="flex flex-col gap-1 p-2 border-l border-[#dbe6e0] dark:border-[#2a4034] pl-4">
+<span class="text-text-muted text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">bathtub</span> Baths
+                            </span>
+<span class="text-xl font-bold text-text-main dark:text-white">3.5</span>
+</div>
+<div class="flex flex-col gap-1 p-2 border-l border-[#dbe6e0] dark:border-[#2a4034] pl-4">
+<span class="text-text-muted text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> Sqft
+                            </span>
+<span class="text-xl font-bold text-text-main dark:text-white">2,800</span>
+</div>
+<div class="flex flex-col gap-1 p-2 border-l border-[#dbe6e0] dark:border-[#2a4034] pl-4">
+<span class="text-text-muted text-sm font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> Year Built
+                            </span>
+<span class="text-xl font-bold text-text-main dark:text-white">2019</span>
+</div>
+</div>
+</div>
+<!-- Financial Breakdown -->
+<section>
+<h3 class="text-xl font-bold text-text-main dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">attach_money</span> Financial Breakdown
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Est Rent -->
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-lg border border-[#dbe6e0] dark:border-[#2a4034] shadow-sm hover:shadow-md transition-shadow">
+<p class="text-sm text-text-muted font-medium mb-1">Est. Monthly Rent</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-text-main dark:text-white">$8,500</span>
+<span class="text-xs font-bold text-primary flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +5.2%
+                                </span>
+</div>
+<p class="text-xs text-text-muted mt-2">Based on comparable listings</p>
+</div>
+<!-- Cap Rate -->
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-lg border border-[#dbe6e0] dark:border-[#2a4034] shadow-sm ring-1 ring-primary/30 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">pie_chart</span>
+</div>
+<p class="text-sm text-text-muted font-medium mb-1">Cap Rate</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-primary">6.8%</span>
+</div>
+<p class="text-xs text-text-muted mt-2">Above market average (5.5%)</p>
+</div>
+<!-- Cash on Cash -->
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-lg border border-[#dbe6e0] dark:border-[#2a4034] shadow-sm hover:shadow-md transition-shadow">
+<p class="text-sm text-text-muted font-medium mb-1">Cash-on-Cash Return</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-text-main dark:text-white">9.2%</span>
+</div>
+<p class="text-xs text-text-muted mt-2">Projected 1st year return</p>
+</div>
+</div>
+</section>
+<!-- Investment Assumptions -->
+<section class="bg-[#f0f4f2] dark:bg-[#1f3629] rounded-xl p-6 border border-transparent dark:border-[#2a4034]">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined">tune</span> Investment Assumptions
+                        </h3>
+<button class="text-xs font-bold text-primary hover:text-primary-hover uppercase tracking-wide">Reset to Defaults</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Down Payment Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium text-text-main dark:text-white">
+<label>Down Payment</label>
+<span class="text-primary">20% ($290k)</span>
+</div>
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" max="100" min="0" type="range" value="20"/>
+<div class="flex justify-between text-xs text-text-muted">
+<span>0%</span>
+<span>100%</span>
+</div>
+</div>
+<!-- Interest Rate Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-sm font-medium text-text-main dark:text-white">
+<label>Interest Rate</label>
+<span class="text-primary">6.5%</span>
+</div>
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" max="10" min="2" step="0.1" type="range" value="6.5"/>
+<div class="flex justify-between text-xs text-text-muted">
+<span>2%</span>
+<span>10%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Insights -->
+<section class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-text-main dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-purple-500">auto_awesome</span> AI Neighborhood Analysis
+                    </h3>
+<div class="bg-white dark:bg-card-dark border border-purple-100 dark:border-purple-900/30 rounded-xl p-6 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h4 class="font-bold text-text-main dark:text-white mb-2">Growth Potential</h4>
+<p class="text-sm text-text-muted leading-relaxed">
+                                    This area is projected to appreciate by <span class="text-primary font-bold">12%</span> over the next 24 months due to the upcoming tech campus expansion located 0.5 miles west. Historical data shows consistent year-over-year growth outperforming the city average.
+                                </p>
+</div>
+<div class="flex flex-col gap-3">
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-1 text-text-muted">
+<span>Safety Score</span>
+<span class="text-green-600 dark:text-primary">A (92/100)</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+<div class="bg-green-500 h-2 rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-1 text-text-muted">
+<span>School District</span>
+<span class="text-green-600 dark:text-primary">A- (88/100)</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+<div class="bg-green-500 h-2 rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Property Description -->
+<section>
+<h3 class="text-xl font-bold text-text-main dark:text-white mb-3">About this property</h3>
+<div class="prose prose-sm max-w-none text-text-muted dark:text-gray-400">
+<p class="mb-4">
+                            Modern investment opportunity in the heart of the emerging tech district. This property features smart home integration, energy-efficient appliances, and high-durability finishes ideal for long-term rentals. The open floor plan maximizes natural light, while the dedicated home office space appeals to remote professionals.
+                        </p>
+<p>
+                            Recently renovated in 2023 with a new roof, HVAC system, and updated plumbing. The backyard includes a low-maintenance xeriscaped garden and a spacious patio perfect for entertaining. Located within walking distance to public transit and major tech shuttles.
+                        </p>
+</div>
+</section>
+<!-- Location Map Placeholder -->
+<section class="h-64 w-full rounded-xl overflow-hidden relative bg-gray-100">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="Map view of San Francisco tech district" data-location="San Francisco Map" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCg5DmwKlAdjaaiOd0QU909tjlwobnf6IS9UEPzLxwV_qiqgAUnXHvquutjwXTdOukpiDqgE4KE80a3ZPaURsvcvt12CEUv_DNkVyY2CwRvN9aVi24KJUqbq9O8yt5lVEyahLIlQ27u_d9iZZP5pVxopfNaxTFTN-iL0HbNEJkrOut2Cfy26kob7zK6l0GvLXrETyxzNSH2dBx6jgSJqzG-5IUAyyEIYj1327JU8c3phnXvsR0jY8N1h94dlCEayaZz2Uys0Xflk1s');"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="bg-white dark:bg-card-dark text-text-main dark:text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2">
+<span class="material-symbols-outlined">map</span> Explore Neighborhood
+                        </button>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<aside class="w-full lg:w-1/3 relative">
+<div class="sticky top-24 flex flex-col gap-6">
+<!-- Lead Capture Card -->
+<div class="bg-white dark:bg-card-dark rounded-xl shadow-lg border border-[#f0f4f2] dark:border-[#2a4034] overflow-hidden">
+<div class="p-6">
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-1">Interested in this asset?</h3>
+<p class="text-sm text-text-muted mb-6">Get the full investment report and schedule a viewing.</p>
+<form class="flex flex-col gap-4">
+<div>
+<label class="sr-only" for="name">Full Name</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">person</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none bg-background-light dark:bg-[#1f3629] rounded-lg text-sm text-text-main dark:text-white placeholder:text-text-muted focus:ring-2 focus:ring-primary" id="name" placeholder="Full Name" type="text"/>
+</div>
+</div>
+<div>
+<label class="sr-only" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">mail</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none bg-background-light dark:bg-[#1f3629] rounded-lg text-sm text-text-main dark:text-white placeholder:text-text-muted focus:ring-2 focus:ring-primary" id="email" placeholder="Email Address" type="email"/>
+</div>
+</div>
+<div>
+<label class="sr-only" for="phone">Phone Number</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px]">phone</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none bg-background-light dark:bg-[#1f3629] rounded-lg text-sm text-text-main dark:text-white placeholder:text-text-muted focus:ring-2 focus:ring-primary" id="phone" placeholder="Phone Number" type="tel"/>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-hover text-[#082f1b] font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-2" type="button">
+                                    Request Details
+                                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-center gap-2 text-xs text-text-muted">
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+                                Your data is secure. No spam, ever.
+                            </div>
+</div>
+</div>
+<!-- Agent Card -->
+<div class="bg-white dark:bg-card-dark rounded-xl shadow-sm border border-[#f0f4f2] dark:border-[#2a4034] p-4 flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-cover bg-center" data-alt="Real estate agent portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWkn8c7amj7Ns734-QtTOz4l1AiBHs4TeA3PtyMdtdxI9kYUjn0NBog_HKRibYaz5QBkZj87ydcawPuqSt1Msd7fJJKPh87HaFL5S0laJUx3OIhj-LpqyF4L6NFkU0uqs0nzbcGqIVWtSuA1R3-FSchkmxrTrKTnR36Ck-bH2vYAfnEUh8Xl8RyXTNUnimZynu7rbiACZQdacozJ7_AyUgcm9qhn_elq4zqKaA08E-GqrD-G10UVZUUe7ZKrwomvE8mZ6cmPKI2xA');"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-text-main dark:text-white">Listed by Sarah Chen</p>
+<p class="text-xs text-text-muted">Top Rated Investment Specialist</p>
+</div>
+<button class="bg-background-light dark:bg-[#1f3629] text-text-main dark:text-white p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>
