@@ -1,32 +1,36 @@
-import fs from 'fs';
-import path from 'path';
+import { supabase } from '@/utils/supabase/client';
 import Link from 'next/link';
 import ListingDetailsClient from '@/components/listing-details/ListingDetailsClient';
-
-async function getData() {
-    const filePath = path.join(process.cwd(), 'content', 'listings.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-}
+import { Listing } from '@/types';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
-    const filePath = path.join(process.cwd(), 'content', 'listings.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const data = JSON.parse(fileContents);
-
-    return data.listings.map((listing: any) => ({
+    // For now we can skip static params or fetch all IDs from supabase if we want SSG.
+    // Given we are moving to DB, we might want to stick to dynamic rendering or generate a few.
+    // Let's return empty for now to allow dynamic generation on demand, or fetch IDs.
+    const { data } = await supabase.from('listings').select('id');
+    return (data || []).map((listing: { id: string }) => ({
         id: listing.id,
     }));
 }
 
 export default async function ListingDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const data = await getData();
-    const listing = data.listings.find((l: any) => l.id === id);
 
-    if (!listing) {
-        return <div className="p-24 text-center">Listing not found</div>;
+    // Fetch data from Supabase
+    const { data, error } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error || !data) {
+        console.error("Error fetching listing:", error);
+        // return <div className="p-24 text-center">Listing not found</div>;
+        notFound();
     }
+
+    const listing = data as unknown as Listing;
 
     return (
         <>

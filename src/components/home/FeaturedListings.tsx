@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Listing } from "@/types";
 
 interface FeaturedListingsProps {
     data: {
@@ -8,25 +9,31 @@ interface FeaturedListingsProps {
             ctaText: string;
             ctaLink: string;
         };
-        items: Array<{
-            id: string;
-            isNew: boolean;
-            matchScore: number;
-            price: string;
-            image: string;
-            title: string;
-            location: string;
-            capRate: string;
-            estRent: string;
-            beds: number;
-            baths: number;
-            sqft: string;
-        }>;
+        // items is legacy, we now use listings prop mainly, 
+        // but keeping structure compatible with page.tsx usage if needed or refactoring page.tsx
     };
+    listings: Listing[];
 }
 
-export default function FeaturedListings({ data }: FeaturedListingsProps) {
+export default function FeaturedListings({ data, listings }: FeaturedListingsProps) {
     if (!data) return null;
+
+    // Helper to calculate Cap Rate if missing (Simplified NOI / Price)
+    const getCapRate = (listing: Listing) => {
+        if (listing.capRate) return listing.capRate;
+
+        const annualRent = (listing.estimated_rent || 0) * 12;
+        const annualExpenses = (listing.expense_tax || 0) + (listing.expense_insurance || 0) + (listing.expense_maintenance || 0) + (listing.expense_management || 0);
+        const noi = annualRent - annualExpenses;
+        const cap = listing.price ? (noi / listing.price) * 100 : 0;
+        return `${cap.toFixed(1)}%`;
+    };
+
+    const formatCurrency = (val: number) => val?.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+    }) || '$0';
 
     return (
         <section className="pt-16 md:pt-20 pb-4 md:pb-6 bg-[#F5F5F7]">
@@ -48,21 +55,26 @@ export default function FeaturedListings({ data }: FeaturedListingsProps) {
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {data.items.map((item) => (
-                        <div
+                    {listings.map((item) => (
+                        <Link
+                            href={`/listings/${item.id}`}
                             key={item.id}
                             className="group cursor-pointer flex flex-col bg-white rounded-3xl overflow-hidden border border-warm-gray-200 hover:border-emerald-accent/50 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-accent/10 hover:-translate-y-2"
                         >
                             <div className="relative h-64 w-full overflow-hidden">
-                                {item.isNew && (
-                                    <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur text-text-dark px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide border border-warm-gray-200 flex items-center gap-1">
-                                        <span className="size-2 rounded-full bg-emerald-accent animate-pulse"></span>{" "}
-                                        New
+                                {item.badge && (
+                                    <div className={`absolute top-4 left-4 z-10 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide flex items-center gap-1.5 shadow-sm ${item.badge === "New Listing"
+                                            ? "bg-white/90 backdrop-blur-md text-text-dark border border-warm-gray-200"
+                                            : item.badge === "AI-Verified"
+                                                ? "bg-teal-500/95 text-white backdrop-blur-sm"
+                                                : "bg-indigo-600/95 text-white backdrop-blur-sm"
+                                        }`}>
+                                        {item.badge === "New Listing" && <span className="size-2 rounded-full bg-emerald-accent animate-pulse"></span>}
+                                        {item.badge === "AI-Verified" && <span className="material-symbols-outlined text-[16px]">verified</span>}
+                                        {item.badge === "High Yield" && <span className="material-symbols-outlined text-[16px]">trending_up</span>}
+                                        {item.badge}
                                     </div>
                                 )}
-                                <div className="absolute top-4 right-4 z-10 bg-emerald-accent text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-lg">
-                                    {item.matchScore} Match
-                                </div>
                                 <div
                                     className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                                     style={{
@@ -70,7 +82,7 @@ export default function FeaturedListings({ data }: FeaturedListingsProps) {
                                     }}
                                 ></div>
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-charcoal/80 to-transparent p-6">
-                                    <p className="text-white font-bold text-xl">{item.price}</p>
+                                    <p className="text-white font-bold text-xl">{formatCurrency(item.price)}</p>
                                 </div>
                             </div>
                             <div className="p-6 flex flex-col gap-5">
@@ -82,7 +94,7 @@ export default function FeaturedListings({ data }: FeaturedListingsProps) {
                                         <span className="material-symbols-outlined text-base">
                                             location_on
                                         </span>{" "}
-                                        {item.location}
+                                        {item.city}, {item.state}
                                     </p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 py-4 border-y border-warm-gray-200">
@@ -90,14 +102,14 @@ export default function FeaturedListings({ data }: FeaturedListingsProps) {
                                         <p className="text-[11px] text-warm-gray-400 uppercase font-bold">
                                             Cap Rate
                                         </p>
-                                        <p className="text-emerald-accent font-bold text-xl">{item.capRate}</p>
+                                        <p className="text-emerald-accent font-bold text-xl">{getCapRate(item)}</p>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-[11px] text-warm-gray-400 uppercase font-bold">
                                             Est. Rent
                                         </p>
                                         <p className="text-text-dark font-bold text-xl">
-                                            {item.estRent}
+                                            {formatCurrency(item.estimated_rent || 0)}
                                             <span className="text-sm font-normal text-warm-gray-400">
                                                 /mo
                                             </span>
@@ -109,10 +121,10 @@ export default function FeaturedListings({ data }: FeaturedListingsProps) {
                                     <span>•</span>
                                     <span>{item.baths} Baths</span>
                                     <span>•</span>
-                                    <span>{item.sqft} sqft</span>
+                                    <span>{item.sqft.toLocaleString()} sqft</span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
                 <div className="mt-12 md:hidden text-center">

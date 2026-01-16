@@ -4,64 +4,69 @@ import { useState, useMemo } from 'react';
 import ListingsFilter from './ListingsFilter';
 import PropertyGrid from './PropertyGrid';
 import LoadMore from './LoadMore';
+import { Listing } from '@/types';
+
+interface FilterOptions {
+    status: string[];
+    priceRange: string[];
+    propertyType: string[];
+    capRate: string[];
+}
 
 interface ListingsClientProps {
-    initialListings: any[];
-    filtersData: {
-        status: string[];
-        priceRange: string[];
-        propertyType: string[];
-        capRate: string[];
-    };
+    initialListings: Listing[];
+    filtersData: FilterOptions;
 }
 
 export default function ListingsClient({ initialListings, filtersData }: ListingsClientProps) {
-    const [selectedFilters, setSelectedFilters] = useState({
-        status: [] as string[],
-        priceRange: [] as string[],
-        propertyType: [] as string[],
-        capRate: [] as string[]
+    const [selectedFilters, setSelectedFilters] = useState<FilterOptions>({
+        status: [],
+        priceRange: [],
+        propertyType: [],
+        capRate: []
     });
 
-    const [sortBy, setSortBy] = useState("Highest Yield");
-
-    // Helper to parse price string to number
-    const parsePrice = (priceStr: string) => {
-        if (!priceStr) return 0;
-        return parseInt(priceStr.replace(/[^0-9]/g, ''));
-    };
+    const [searchQuery, setSearchQuery] = useState("");
+    const [sortBy, setSortBy] = useState("Price: Low to High");
 
     // Helper to parse percentage string to number
-    const parsePercentage = (percentStr: string) => {
+    const parsePercentage = (percentStr: string | undefined) => {
         if (!percentStr) return 0;
-        return parseFloat(percentStr.replace('%', ''));
+        return parseFloat(percentStr.replace(/[^0-9.-]/g, ''));
     };
 
     // Filter logic
     const filteredListings = useMemo(() => {
-        return initialListings.filter(listing => {
+        let result = initialListings.filter(listing => {
+            // Search Query Filter
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                const matchesSearch =
+                    listing.title?.toLowerCase().includes(query) ||
+                    listing.city?.toLowerCase().includes(query) ||
+                    listing.state?.toLowerCase().includes(query) ||
+                    listing.zipcode?.toLowerCase().includes(query);
+
+                if (!matchesSearch) return false;
+            }
+
             // Status Filter
             if (selectedFilters.status.length > 0) {
-                // Check both root status and quickStats status
-                const status = listing.details?.quickStats?.status || "Active";
+                const status = "Active"; // Placeholder
                 if (!selectedFilters.status.includes(status)) return false;
             }
 
             // Property Type Filter
             if (selectedFilters.propertyType.length > 0) {
-                // Check quickStats propertyType
-                const type = listing.details?.quickStats?.propertyType;
-                // Loose matching because data has "Condo", "Apartment" but filter might have "Multi Family"
-                // For now, simple inclusion
+                const type = listing.property_type;
                 if (!selectedFilters.propertyType.some(filter => type === filter)) {
-                    // specific handling if needed, but for now strict match
                     return false;
                 }
             }
 
             // Price Range Filter
             if (selectedFilters.priceRange.length > 0) {
-                const price = parsePrice(listing.price);
+                const price = listing.price;
                 const matchesPrice = selectedFilters.priceRange.some(range => {
                     if (range === "Under $100k") return price < 100000;
                     if (range === "$100k - $500k") return price >= 100000 && price <= 500000;
@@ -87,9 +92,29 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
 
             return true;
         });
-    }, [initialListings, selectedFilters]);
 
-    // Sort logic can be added here if needed, current task focus is filters.
+        // Sorting Logic
+        return result.sort((a, b) => {
+            if (sortBy === "Price: Low to High") {
+                return a.price - b.price;
+            }
+            if (sortBy === "Price: High to Low") {
+                return b.price - a.price;
+            }
+            if (sortBy === "ROI: High to Low") {
+                // Assuming ROI is stored as string "XX%" in listing.roi or need defaults
+                const roiA = parsePercentage(a.roi) || 0;
+                const roiB = parsePercentage(b.roi) || 0;
+                return roiB - roiA;
+            }
+            if (sortBy === "Cap Rate: High to Low") {
+                const capA = parsePercentage(a.capRate) || 0;
+                const capB = parsePercentage(b.capRate) || 0;
+                return capB - capA;
+            }
+            return 0;
+        });
+    }, [initialListings, selectedFilters, searchQuery, sortBy]);
 
     return (
         <>
@@ -97,6 +122,10 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
                 data={filtersData}
                 selectedFilters={selectedFilters}
                 onFilterChange={setSelectedFilters}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
             />
             <PropertyGrid listings={filteredListings} />
             <LoadMore />

@@ -1,5 +1,7 @@
+import { InvestmentMetrics } from '@/types';
+
 interface InvestmentSnapshotProps {
-    metrics: any;
+    metrics: InvestmentMetrics;
 }
 
 export default function InvestmentSnapshot({ metrics }: InvestmentSnapshotProps) {

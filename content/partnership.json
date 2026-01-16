@@ -77,8 +77,9 @@
             },
             {
                 "icon": "pie_chart",
-                "title": "80/20 Profit Split",
-                "description": "Investors keep 80% of the net profit. We take 20% as a performance fee."
+                "title": "Platform Fee: 5%–20+%",
+                "description": "We take a performance fee of approximately 5% to 20%+ depending on the asset class and strategy.",
+                "badge": "Performance Based"
             },
             {
                 "icon": "verified",
@@ -94,9 +95,9 @@
             "saleValue": "$600,000",
             "netProfitLabel": "Net Profit",
             "netProfitValue": "$150,000",
-            "investorShareLabel": "You Keep (80%)",
+            "investorShareLabel": "Investor Share",
             "investorShareValue": "$120,000",
-            "platformShareLabel": "Platform (20%)",
+            "platformShareLabel": "Platform Fee",
             "platformShareValue": "$30,000"
         }
     },

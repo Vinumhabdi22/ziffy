@@ -1,10 +1,12 @@
 "use client";
 
+
 import { useState } from 'react';
+import { CalculatorValues, CalculatorSetters } from '@/types';
 
 interface InvestorCalculatorProps {
-    values: any;
-    setters: any;
+    values: CalculatorValues;
+    setters: CalculatorSetters;
 }
 
 export default function InvestorCalculator({ values, setters }: InvestorCalculatorProps) {
@@ -14,7 +16,7 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
 
     // Formatting helpers
     const formatCurrency = (val: number) => `$${val.toLocaleString()}`;
-    const formatPercent = (val: number) => `${val}%`;
+    // const formatPercent = (val: number) => `${val}%`;
 
     return (
         <div className="bg-white rounded-xl border border-warm-gray-200 overflow-hidden shadow-sm">
@@ -33,7 +35,7 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
                 {/* Purchase Price Input */}
                 <div className="mb-4">
                     <label className="block text-xs text-warm-gray-600 mb-1.5 font-medium">Choose a purchase price to calculate returns:</label>
-                    <div className="relative">
+                    <div className="relative mb-3">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-gray-500 font-bold text-sm">$</span>
                         <input
                             type="number"
@@ -41,6 +43,39 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
                             onChange={(e) => setters.setPurchasePrice(Number(e.target.value))}
                             className="w-full pl-6 pr-3 py-2 rounded-lg border border-warm-gray-200 text-base font-bold text-text-dark focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                         />
+                    </div>
+
+                    {/* Price Slider */}
+                    <div className="px-1">
+                        <input
+                            type="range"
+                            min={Math.round(values.originalPrice * 0.8)}
+                            max={Math.round(values.originalPrice * 1.2)}
+                            step={100}
+                            value={values.purchasePrice}
+                            onChange={(e) => setters.setPurchasePrice(Number(e.target.value))}
+                            className="w-full h-2 bg-warm-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                        />
+                        <div className="flex justify-between mt-2 text-xs text-warm-gray-500 font-medium">
+                            <span
+                                onClick={() => setters.setPurchasePrice(Math.round(values.originalPrice * 0.8))}
+                                className="cursor-pointer hover:text-primary transition-colors"
+                            >
+                                {formatCurrency(Math.round(values.originalPrice * 0.8))}
+                            </span>
+                            <span
+                                onClick={() => setters.setPurchasePrice(values.originalPrice)}
+                                className="cursor-pointer hover:text-text-dark transition-colors font-bold text-text-dark"
+                            >
+                                {formatCurrency(values.originalPrice)}
+                            </span>
+                            <span
+                                onClick={() => setters.setPurchasePrice(Math.round(values.originalPrice * 1.2))}
+                                className="cursor-pointer hover:text-primary transition-colors"
+                            >
+                                {formatCurrency(Math.round(values.originalPrice * 1.2))}
+                            </span>
+                        </div>
                     </div>
                 </div>
 

@@ -1,16 +1,47 @@
-import fs from 'fs';
-import path from 'path';
+import { supabase } from '@/utils/supabase/client';
 import Link from 'next/link';
 import ListingsClient from '@/components/listings/ListingsClient';
+import { Listing } from '@/types';
 
-async function getData() {
-    const filePath = path.join(process.cwd(), 'content', 'listings.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-}
+// Mock filters for now, or fetch from DB if we had a filters table. 
+// Since filters are UI options, they can remain hardcoded or derived.
+const FILTERS = {
+    status: ["Active", "Pending", "Sold"],
+    priceRange: ["Under $100k", "$100k - $500k", "$500k - $1M", "$1M+"],
+    propertyType: ["Single Family", "Multi Family", "Commercial", "Land"],
+    capRate: ["3% - 5%", "5% - 7%", "7% - 9%", "9%+"]
+};
+
+// Breadcrumbs data
+const BREADCRUMBS = {
+    breadcrumbs: [
+        { label: "Marketplace", href: "/listings" },
+        { label: "All Locations", href: "#" }
+    ],
+    title: "Investment Properties Marketplace",
+    subtitle: "Browse our exclusive list of vetted investment opportunities.",
+};
 
 export default async function ListingsPage() {
-    const data = await getData();
+    let listings: Listing[] = [];
+    let count = "Loading...";
+
+    try {
+        const { data, error } = await supabase.from('listings').select('*');
+        if (error) {
+            console.error("Error fetching listings:", error);
+        } else {
+            listings = data as unknown as Listing[]; // Cast to Listing
+            count = `${listings.length} Listings found`;
+        }
+    } catch (err) {
+        console.error("Supabase client error:", err);
+    }
+
+    // fallback if no data or env vars missing (local dev without creds)
+    if (listings.length === 0) {
+        // Optional: We could fallback to empty array or show a message
+    }
 
     return (
         <div className="bg-background-light min-h-screen">
@@ -18,15 +49,15 @@ export default async function ListingsPage() {
                 <div className="flex flex-col w-full max-w-[1280px] flex-1">
                     {/* Breadcrumbs */}
                     <div className="flex flex-wrap gap-2 px-4 py-2 text-sm">
-                        {data.header.breadcrumbs.map((crumb: any, index: number) => (
+                        {BREADCRUMBS.breadcrumbs.map((crumb, index) => (
                             <div key={index} className="flex items-center gap-2">
                                 <Link
                                     href={crumb.href}
-                                    className={`font-medium leading-normal hover:text-primary transition-colors ${index === data.header.breadcrumbs.length - 1 ? 'text-text-dark font-semibold' : 'text-warm-gray-500'}`}
+                                    className={`font-medium leading-normal hover:text-primary transition-colors ${index === BREADCRUMBS.breadcrumbs.length - 1 ? 'text-text-dark font-semibold' : 'text-warm-gray-500'}`}
                                 >
                                     {crumb.label}
                                 </Link>
-                                {index < data.header.breadcrumbs.length - 1 && (
+                                {index < BREADCRUMBS.breadcrumbs.length - 1 && (
                                     <span className="text-warm-gray-500 font-medium leading-normal">/</span>
                                 )}
                             </div>
@@ -37,20 +68,20 @@ export default async function ListingsPage() {
                     <div className="flex flex-wrap justify-between items-end gap-3 px-4 py-4 mb-2">
                         <div className="flex min-w-72 flex-col gap-2">
                             <h1 className="text-text-dark text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em]">
-                                {data.header.title}
+                                {BREADCRUMBS.title}
                             </h1>
                             <p className="text-warm-gray-500 text-base font-normal leading-normal">
-                                {data.header.count}
+                                {count}
                             </p>
                         </div>
-                        <button className="hidden md:flex items-center gap-2 text-primary font-bold hover:underline">
+                        {/* <button className="hidden md:flex items-center gap-2 text-primary font-bold hover:underline">
                             <span className="material-symbols-outlined text-sm">save</span> Save Search
-                        </button>
+                        </button> */}
                     </div>
 
                     <ListingsClient
-                        initialListings={data.listings}
-                        filtersData={data.filters}
+                        initialListings={listings}
+                        filtersData={FILTERS}
                     />
                 </div>
             </div>

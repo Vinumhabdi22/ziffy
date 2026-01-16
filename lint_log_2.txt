@@ -1,0 +1,15 @@
+﻿
+> temp-app@0.1.0 lint
+> eslint
+
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\app\layout.tsx
+  22:9  warning  A font-display parameter is missing (adding `&display=optional` is recommended). See: https://nextjs.org/docs/messages/google-font-display                       @next/next/google-font-display
+  22:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listings\ListingsFilter.tsx
+  40:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  52:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 4 problems (2 errors, 2 warnings)
+

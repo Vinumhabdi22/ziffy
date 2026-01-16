@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ListingHero from './ListingHero';
 import InvestmentSnapshot from './InvestmentSnapshot';
 import FinancialAnalysis from './FinancialAnalysis';
@@ -9,22 +9,23 @@ import PropertyDetails from './PropertyDetails';
 import PropertyOverview from './PropertyOverview';
 import InquiryForm from './InquiryForm';
 import InvestorCalculator from './InvestorCalculator';
+import { Listing } from '@/types';
 
 interface ListingDetailsClientProps {
-    listing: any;
+    listing: Listing;
 }
 
 export default function ListingDetailsClient({ listing }: ListingDetailsClientProps) {
     // Parse initial values from JSON strings (e.g., "$850,000" -> 850000)
-    const parseCurrency = (val: string) => parseInt(val.replace(/[^0-9]/g, '')) || 0;
+    // const parseCurrency = (val: string) => parseInt(val.replace(/[^0-9]/g, '')) || 0;
 
     // Initial State
-    const [purchasePrice, setPurchasePrice] = useState(parseCurrency(listing.price));
-    const [rent, setRent] = useState(parseCurrency(listing.details.investmentMetrics.estimatedRent));
-    const [propertyTax, setPropertyTax] = useState(parseCurrency(listing.details.financials.expenses.tax) / 12);
-    const [insurance, setInsurance] = useState(parseCurrency(listing.details.financials.expenses.insurance) / 12);
-    const [maintenance, setMaintenance] = useState(parseCurrency(listing.details.financials.expenses.maintenance) / 12);
-    const [management, setManagement] = useState(parseCurrency(listing.details.financials.expenses.management) / 12);
+    const [purchasePrice, setPurchasePrice] = useState(listing.price);
+    const [rent, setRent] = useState(listing.estimated_rent);
+    const [propertyTax, setPropertyTax] = useState(listing.expense_tax / 12);
+    const [insurance, setInsurance] = useState(listing.expense_insurance / 12);
+    const [maintenance, setMaintenance] = useState(listing.expense_maintenance / 12);
+    const [management, setManagement] = useState(listing.expense_management / 12);
 
     // Financing State
     const [downPaymentPercent, setDownPaymentPercent] = useState(20);
@@ -142,7 +143,7 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
     return (
         <div className="bg-background-light min-h-screen pb-20">
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <ListingHero listing={{ ...listing, price: metrics.purchasePrice }} />
+                <ListingHero listing={{ ...listing, price: purchasePrice }} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content Column */}
@@ -151,7 +152,7 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                         <FinancialAnalysis financials={financials} />
                         <FinancialProjections projections={projections} />
 
-                        <PropertyDetails details={listing.details} />
+                        <PropertyDetails listing={listing} />
                     </div>
 
                     {/* Sidebar Column - Sticky */}
@@ -160,6 +161,7 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                             <InvestorCalculator
                                 values={{
                                     purchasePrice,
+                                    originalPrice: listing.price,
                                     rent,
                                     propertyTax,
                                     insurance,
@@ -183,7 +185,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                                 }}
                             />
                             <InvestmentSnapshot metrics={metrics} />
-                            <InquiryForm />
+                            <InquiryForm
+                                propertyTitle={listing.title}
+                                propertyAddress={listing.address}
+                            />
                         </div>
                     </div>
                 </div>

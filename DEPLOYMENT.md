@@ -62,3 +62,26 @@ Usually, it involves adding:
 ## Updates
 
 Whenever you want to update your website, just **push your changes to GitHub**. Vercel will automatically detect the new commit and re-deploy your site.
+
+## Deploying to Shared Hosting (cPanel, HostGator, Bluehost etc.)
+
+If you prefer to use standard shared hosting instead of Vercel:
+
+1.  **Configure for Static Export** (Done):
+    Your `next.config.ts` is already configured with `output: "export"`.
+
+2.  **Build the Project**:
+    Run the following command in your terminal:
+    ```bash
+    npm run build
+    ```
+    This will create an `out` folder in your project directory.
+
+3.  **Upload to Hosting**:
+    - Log in to your hosting Control Panel (e.g., cPanel).
+    - Go to **File Manager**.
+    - Navigate to your `public_html` folder (or the specific folder for your domain).
+    - **Upload** all the *contents* of the `out` folder (index.html, 404.html, _next folder, etc.) to this directory.
+
+4.  **Done!**
+    Your site should now be live on your domain.

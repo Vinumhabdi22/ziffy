@@ -47,9 +47,6 @@ export default function Hero({ data }: HeroProps) {
                         {data.title}{' '}
                         <span className="relative inline-block text-emerald-accent">
                             {data.titleHighlight}
-                            <svg className="absolute -bottom-2 left-0 w-full opacity-60" height="12" viewBox="0 0 200 12" fill="none">
-                                <path d="M2 10C60 2 140 2 198 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                            </svg>
                         </span>{' '}
                         {data.titleSuffix}
                     </h1>

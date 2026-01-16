@@ -1,0 +1,65 @@
+﻿
+> temp-app@0.1.0 lint
+> eslint
+
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\app\layout.tsx
+  22:9  warning  A font-display parameter is missing (adding `&display=optional` is recommended). See: https://nextjs.org/docs/messages/google-font-display                       @next/next/google-font-display
+  22:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\app\listings\[id]\page.tsx
+  17:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\app\listings\page.tsx
+  21:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\FinancialAnalysis.tsx
+  2:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\InvestmentSnapshot.tsx
+  2:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\InvestorCalculator.tsx
+   6:13  error    Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+   7:14  error    Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  17:11  warning  'formatPercent' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\ListingDetailsClient.tsx
+   3:20  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  14:14  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\ListingHero.tsx
+   6:14  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  11:12  warning  'selectedImage' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  11:27  warning  'setSelectedImage' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\PropertyDetails.tsx
+  3:10  warning  'useState' is defined but never used      @typescript-eslint/no-unused-vars
+  6:14  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listing-details\PropertyOverview.tsx
+  4:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listings\ListingsClient.tsx
+   9:22  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  26:12  warning  'sortBy' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  26:20  warning  'setSortBy' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listings\ListingsFilter.tsx
+  18:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\listings\PropertyGrid.tsx
+  4:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\partnership\PartnershipHero.tsx
+  1:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\fiver\Work\Ziffy Ai\CodeSp\src\components\partnership\SuccessStories.tsx
+  31:94   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  31:107  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+Γ£û 28 problems (18 errors, 10 warnings)
+

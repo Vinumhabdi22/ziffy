@@ -28,7 +28,7 @@ export default function SuccessStories({ data }: SuccessStoriesProps) {
                                     <span key={i} className="material-symbols-outlined">star</span>
                                 ))}
                             </div>
-                            <p className="text-black text-lg mb-8 leading-relaxed flex-grow">"{item.quote}"</p>
+                            <p className="text-black text-lg mb-8 leading-relaxed flex-grow">&quot;{item.quote}&quot;</p>
                             <div className="flex items-center gap-4 mt-auto">
                                 <div
                                     className="w-14 h-14 rounded-full bg-gray-200 bg-cover"

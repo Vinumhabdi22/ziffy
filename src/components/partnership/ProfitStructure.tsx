@@ -6,6 +6,7 @@ interface ProfitStructureProps {
             icon: string;
             title: string;
             description: string;
+            badge?: string;
         }>;
         example: {
             title: string;
@@ -47,12 +48,17 @@ export default function ProfitStructure({ data }: ProfitStructureProps) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {data.benefits.map((benefit, index) => (
-                        <div key={index} className="flex items-center gap-4 bg-white p-6 rounded-2xl border border-warm-gray-200 shadow-sm">
+                        <div key={index} className="relative flex items-center gap-4 bg-white p-6 rounded-2xl border border-warm-gray-200 shadow-sm overflow-hidden">
+                            {benefit.badge && (
+                                <span className="absolute top-0 right-0 bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-primary/10 uppercase tracking-wider">
+                                    {benefit.badge}
+                                </span>
+                            )}
                             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                 <span className="material-symbols-outlined text-2xl">{benefit.icon}</span>
                             </div>
                             <div>
-                                <h4 className="text-black font-bold font-display">{benefit.title}</h4>
+                                <h4 className="text-black font-bold font-display pr-8">{benefit.title}</h4>
                                 <p className="text-sm text-black">{benefit.description}</p>
                             </div>
                         </div>

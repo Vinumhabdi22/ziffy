@@ -1,11 +1,13 @@
 "use client";
 
+import { Listing } from '@/types';
+
 interface PropertyOverviewProps {
-    listing: any;
+    listing: Listing;
 }
 
 export default function PropertyOverview({ listing }: PropertyOverviewProps) {
-    const { details } = listing;
+    // const { details } = listing;
 
     return (
         <section className="bg-white rounded-xl border border-warm-gray-200 p-6 md:p-8">
@@ -46,7 +48,7 @@ export default function PropertyOverview({ listing }: PropertyOverviewProps) {
                     </div>
                     <div>
                         <p className="text-sm text-warm-gray-500">Year Built</p>
-                        <p className="font-bold text-[#111814]">{details.quickStats.yearBuilt || '2019'}</p>
+                        <p className="font-bold text-[#111814]">{listing.year_built || '2019'}</p>
                     </div>
                 </div>
             </div>
@@ -54,7 +56,7 @@ export default function PropertyOverview({ listing }: PropertyOverviewProps) {
             {/* Description */}
             <div className="prose max-w-none text-warm-gray-600 leading-relaxed">
                 <p className="mb-4">
-                    {details.description}
+                    {listing.description}
                 </p>
             </div>
         </section>

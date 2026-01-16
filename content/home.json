@@ -138,5 +138,13 @@
         "image": "/images/home/service-3.jpg"
       }
     ]
+  },
+  "newsletter": {
+    "badge": "Market Insights",
+    "title": "Get Exclusive AI-Powered Market Insights",
+    "description": "Join 10,000+ investors leveraging our predictive algorithms to identify high-yield properties before they hit the market.",
+    "placeholder": "Enter your work email",
+    "buttonText": "Subscribe",
+    "disclaimer": "Zero spam. Unsubscribe at any time with one click."
   }
 }

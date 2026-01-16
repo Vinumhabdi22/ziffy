@@ -1,7 +1,8 @@
 import PropertyCard from './PropertyCard';
+import { Listing } from '@/types';
 
 interface PropertyGridProps {
-    listings: any[];
+    listings: Listing[];
 }
 
 export default function PropertyGrid({ listings }: PropertyGridProps) {

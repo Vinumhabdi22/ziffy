@@ -1,5 +1,7 @@
+import { Financials } from '@/types';
+
 interface FinancialAnalysisProps {
-    financials: any;
+    financials: Financials;
 }
 
 export default function FinancialAnalysis({ financials }: FinancialAnalysisProps) {
