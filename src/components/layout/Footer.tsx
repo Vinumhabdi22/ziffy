@@ -34,15 +34,9 @@ export default function Footer() {
                         </Link>
                         <Link
                             className="text-gray-600 hover:text-emerald-accent text-sm font-medium transition-colors"
-                            href="#"
+                            href="/contact"
                         >
                             Contact Us
-                        </Link>
-                        <Link
-                            className="text-gray-600 hover:text-emerald-accent text-sm font-medium transition-colors"
-                            href="#"
-                        >
-                            Help Center
                         </Link>
                     </div>
                     <div className="flex gap-5">

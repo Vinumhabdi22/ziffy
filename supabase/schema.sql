@@ -161,8 +161,59 @@ create policy "Allow public insert access"
   for insert
   with check (true);
 
+
 -- Create a policy that allows read access only to authenticated users (admins/staff)
 create policy "Allow staff read access"
   on sfr_leads
   for select
   using (true);
+
+-- Create faqs table
+create table faqs (
+  id uuid default gen_random_uuid() primary key,
+  question text not null,
+  answer text not null,
+  display_order numeric default 0,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Turn on Row Level Security
+alter table faqs enable row level security;
+
+-- Create a policy that allows anyone to read
+create policy "Allow public read access"
+  on faqs
+  for select
+  using (true);
+
+-- Insert sample data
+insert into faqs (question, answer, display_order) values
+('What is Ziffy AI?', 'Ziffy AI is a platform that uses artificial intelligence to help you find the best real estate investment opportunities.', 1),
+('How do I start investing?', 'Simply browse our marketplace, select a property that fits your criteria, and click "Request Details".', 2),
+('Are the listings verified?', 'Yes, all our listings are verified by our team and our AI algorithms.', 3);
+
+-- Create contact_inquiries table
+create table contact_inquiries (
+  id uuid default gen_random_uuid() primary key,
+  full_name text not null,
+  email text not null,
+  investment_goal text not null,
+  message text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Turn on Row Level Security
+alter table contact_inquiries enable row level security;
+
+-- Create a policy that allows anyone to insert (public form)
+create policy "Allow public insert access"
+  on contact_inquiries
+  for insert
+  with check (true);
+
+-- Create a policy that allows read access only to authenticated users (admins/staff)
+create policy "Allow staff read access"
+  on contact_inquiries
+  for select
+  using (true);
+

@@ -26,8 +26,14 @@ export default function InquiryForm({ propertyTitle, propertyAddress }: InquiryF
     } | null>(null);
 
     const validateEmail = (email: string) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email.trim());
+    };
+
+    const validatePhone = (phone: string) => {
+        // Strip all non-digit characters to validate
+        const digitsOnly = phone.replace(/\D/g, '');
+        return digitsOnly.length >= 10;
     };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +65,7 @@ export default function InquiryForm({ propertyTitle, propertyAddress }: InquiryF
             isValid = false;
         }
 
-        if (formData.phone.length < 10) { // Basic check
+        if (!validatePhone(formData.phone)) {
             newErrors.phone = "Phone number must be at least 10 digits";
             isValid = false;
         }

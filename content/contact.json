@@ -1,0 +1,55 @@
+{
+    "header": {
+        "title": "Let's Build Your Wealth Together",
+        "subtitle": "Reach out to our AI investment specialists. We usually respond within 2 hours."
+    },
+    "form": {
+        "fields": {
+            "fullName": {
+                "label": "Full Name",
+                "placeholder": "Jane Doe",
+                "icon": "person"
+            },
+            "email": {
+                "label": "Email Address",
+                "placeholder": "jane@example.com",
+                "icon": "mail"
+            },
+            "goal": {
+                "label": "Investment Goal",
+                "placeholder": "Select your goal",
+                "icon": "expand_more",
+                "options": [
+                    {
+                        "value": "buy",
+                        "label": "Buying Property"
+                    },
+                    {
+                        "value": "sell",
+                        "label": "Selling Property"
+                    },
+                    {
+                        "value": "consult",
+                        "label": "AI Investment Consultation"
+                    }
+                ]
+            },
+            "message": {
+                "label": "Message (Optional)",
+                "placeholder": "Tell us more about what you are looking for..."
+            }
+        },
+        "submitButton": {
+            "text": "Start the Conversation",
+            "icon": "arrow_forward"
+        },
+        "trustIndicator": {
+            "icon": "verified",
+            "text": "Trusted by 500+ Accredited Investors"
+        }
+    },
+    "messages": {
+        "success": "Thank you for reaching out! We'll get back to you within 2 hours.",
+        "error": "Something went wrong. Please try again or call us at 1-800-555-0123."
+    }
+}

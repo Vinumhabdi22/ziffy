@@ -23,8 +23,15 @@ interface LeadCaptureFormProps {
 const formSchema = z.object({
     firstName: z.string().min(1, 'First Name is required'),
     lastName: z.string().min(1, 'Last Name is required'),
-    email: z.string().email('Invalid email address'),
-    phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+    email: z.string()
+        .min(1, 'Email is required')
+        .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email address'),
+    phone: z.string()
+        .min(1, 'Phone number is required')
+        .refine(
+            (val) => val.replace(/\D/g, '').length >= 10,
+            'Phone number must be at least 10 digits'
+        ),
     investmentTarget: z.string().min(1, 'Please select an investment target'),
     isAccredited: z.boolean(),
 });

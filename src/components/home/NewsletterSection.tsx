@@ -35,9 +35,9 @@ const NewsletterSection = ({ data }: NewsletterProps) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        // Email validation
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!email.trim() || !emailRegex.test(email.trim())) {
             setStatus('error');
             setMessage('Please enter a valid email address.');
             return;

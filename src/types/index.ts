@@ -102,3 +102,11 @@ export interface CalculatorSetters {
     setMaintenance: (val: number) => void;
     setManagement: (val: number) => void;
 }
+
+export interface FAQ {
+    id: string;
+    question: string;
+    answer: string;
+    display_order: number;
+    created_at: string;
+}
