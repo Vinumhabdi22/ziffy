@@ -1,15 +1,26 @@
 "use client";
 
 import { useState } from 'react';
+import { z } from 'zod';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+
+// Security: Input validation schema
+const contactSchema = z.object({
+    fullName: z.string().min(2, 'Full name is required').max(100, 'Name is too long'),
+    email: z.string().email('Please enter a valid email address').max(255, 'Email is too long'),
+    goal: z.string().min(1, 'Please select an investment goal'),
+    message: z.string().max(2000, 'Message is too long').optional(),
+});
 
 export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         goal: '',
-        message: ''
+        message: '',
+        // Security: Honeypot field for anti-spam
+        botField: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -19,11 +30,6 @@ export default function ContactClient() {
         goal: ''
     });
 
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -31,7 +37,7 @@ export default function ContactClient() {
             [name]: value
         }));
         // Clear error for the field being edited
-        if (errors[name as keyof typeof errors]) {
+        if (name in errors && errors[name as keyof typeof errors]) {
             setErrors(prev => ({
                 ...prev,
                 [name]: ''
@@ -43,31 +49,34 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
-
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
+        // Security: Honeypot check - silently fail for bots
+        if (formData.botField) {
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                goal: '',
+                message: '',
+                botField: ''
+            });
+            return;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
+        // Security: Validate form using Zod
+        const result = contactSchema.safeParse({
+            fullName: formData.fullName,
+            email: formData.email,
+            goal: formData.goal,
+            message: formData.message
+        });
 
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
-
-        setErrors(newErrors);
-
-        if (!isValid) {
+        if (!result.success) {
+            const formattedErrors = result.error.format();
+            setErrors({
+                fullName: formattedErrors.fullName?._errors[0] || '',
+                email: formattedErrors.email?._errors[0] || '',
+                goal: formattedErrors.goal?._errors[0] || ''
+            });
             return;
         }
 
@@ -75,14 +84,15 @@ export default function ContactClient() {
 
         try {
             // Insert data into Supabase
+            // Note: RLS policies should also be in place on Supabase for robust security
             const { error } = await supabase
                 .from('contact_inquiries')
                 .insert([
                     {
-                        full_name: formData.fullName,
-                        email: formData.email,
-                        investment_goal: formData.goal,
-                        message: formData.message || null
+                        full_name: result.data.fullName, // Use validated data
+                        email: result.data.email,
+                        investment_goal: result.data.goal,
+                        message: result.data.message || null
                     }
                 ]);
 
@@ -96,7 +106,8 @@ export default function ContactClient() {
                     fullName: '',
                     email: '',
                     goal: '',
-                    message: ''
+                    message: '',
+                    botField: ''
                 });
             }
         } catch (error) {
@@ -125,6 +136,20 @@ export default function ContactClient() {
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Security: Honeypot Field */}
+                        <div className="opacity-0 absolute -z-10 h-0 w-0 overflow-hidden">
+                            <label htmlFor="botField">Website</label>
+                            <input
+                                id="botField"
+                                name="botField"
+                                type="text"
+                                autoComplete="off"
+                                tabIndex={-1}
+                                value={formData.botField}
+                                onChange={handleChange}
+                            />
+                        </div>
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
@@ -140,6 +165,7 @@ export default function ContactClient() {
                                     name="fullName"
                                     placeholder={form.fields.fullName.placeholder}
                                     type="text"
+                                    maxLength={100} // Security: Max length limit
                                     value={formData.fullName}
                                     onChange={handleChange}
                                 />
@@ -165,6 +191,7 @@ export default function ContactClient() {
                                     name="email"
                                     placeholder={form.fields.email.placeholder}
                                     type="email"
+                                    maxLength={255} // Security: Max length limit
                                     value={formData.email}
                                     onChange={handleChange}
                                 />
@@ -220,10 +247,14 @@ export default function ContactClient() {
                                 id="message"
                                 name="message"
                                 placeholder={form.fields.message.placeholder}
+                                maxLength={2000} // Security: Max length limit
                                 rows={4}
                                 value={formData.message}
                                 onChange={handleChange}
                             ></textarea>
+                            <div className="text-right text-xs text-warm-gray-400">
+                                {formData.message.length}/2000
+                            </div>
                         </div>
 
                         {/* Status Messages */}
