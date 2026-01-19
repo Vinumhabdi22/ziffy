@@ -15,7 +15,7 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
     const [isExpensesOpen, setIsExpensesOpen] = useState(false);
 
     // Formatting helpers
-    const formatCurrency = (val: number) => `$${val.toLocaleString()}`;
+    const formatCurrency = (val: number) => `$${val.toLocaleString('en-US')}`;
     // const formatPercent = (val: number) => `${val}%`;
 
     return (

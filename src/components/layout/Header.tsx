@@ -77,7 +77,7 @@ export default function Header() {
             >
                 <div className="flex flex-col p-6 gap-6 h-[calc(100vh-65px)] overflow-y-auto">
                     <nav className="flex flex-col gap-4">
-                        {["Home", "Listings", "Partnership", "SFR", "FAQ", "Contact"].map((item) => {
+                        {["Home", "Listings", "Partnership", "SFR", "FAQ", "Contact", "Privacy", "Terms"].map((item) => {
                             const href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
                             const isActive = pathname === href || (item !== "Home" && pathname?.startsWith(href));
 

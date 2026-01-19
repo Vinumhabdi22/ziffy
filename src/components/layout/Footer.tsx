@@ -22,13 +22,13 @@ export default function Footer() {
                     <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
                         <Link
                             className="text-gray-600 hover:text-emerald-accent text-sm font-medium transition-colors"
-                            href="#"
+                            href="/privacy"
                         >
                             Privacy Policy
                         </Link>
                         <Link
                             className="text-gray-600 hover:text-emerald-accent text-sm font-medium transition-colors"
-                            href="#"
+                            href="/terms"
                         >
                             Terms of Service
                         </Link>

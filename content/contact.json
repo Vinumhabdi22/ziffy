@@ -35,7 +35,7 @@
                 ]
             },
             "message": {
-                "label": "Message (Optional)",
+                "label": "Message",
                 "placeholder": "Tell us more about what you are looking for..."
             }
         },

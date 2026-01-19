@@ -115,7 +115,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        {header.title}
+                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -223,7 +223,12 @@ export default function ContactClient() {
                                 rows={4}
                                 value={formData.message}
                                 onChange={handleChange}
+                                required
+                                maxLength={1000}
                             ></textarea>
+                            <div className="text-xs text-warm-gray-500 text-right">
+                                {formData.message.length}/1000 characters
+                            </div>
                         </div>
 
                         {/* Status Messages */}

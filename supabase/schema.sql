@@ -86,11 +86,8 @@ create policy "Allow public insert access"
   for insert
   with check (true);
 
--- Create a policy that allows read access only to authenticated users (admins/staff) - generic for now, typically restricted
-create policy "Allow public read access"
-  on listing_inquiry
-  for select
-  using (true);
+-- SECURITY: No public read access - only service_role can read PII data
+-- Public users can still insert inquiries via the form (see "Allow public insert access" policy above)
 
 -- Create newsletter_subscriptions table
 create table newsletter_subscriptions (
@@ -109,11 +106,8 @@ create policy "Allow public insert access"
   for insert
   with check (true);
 
--- Create a policy that allows read access only to authenticated users (admins/staff)
-create policy "Allow staff read access"
-  on newsletter_subscriptions
-  for select
-  using (true);
+-- SECURITY: No public read access - only service_role can read email addresses
+-- Public users can still subscribe via the form (see "Allow public insert access" policy above)
 
 -- Create partnership_leads table
 create table partnership_leads (
@@ -134,11 +128,8 @@ create policy "Allow public insert access"
   for insert
   with check (true);
 
--- Create a policy that allows read access only to authenticated users (admins/staff)
-create policy "Allow staff read access"
-  on partnership_leads
-  for select
-  using (true);
+-- SECURITY: No public read access - only service_role can read lead data
+-- Public users can still submit leads via the form (see "Allow public insert access" policy above)
 
 -- Create sfr_leads table
 create table sfr_leads (
@@ -162,11 +153,8 @@ create policy "Allow public insert access"
   with check (true);
 
 
--- Create a policy that allows read access only to authenticated users (admins/staff)
-create policy "Allow staff read access"
-  on sfr_leads
-  for select
-  using (true);
+-- SECURITY: No public read access - only service_role can read lead data
+-- Public users can still submit leads via the form (see "Allow public insert access" policy above)
 
 -- Create faqs table
 create table faqs (
@@ -211,9 +199,6 @@ create policy "Allow public insert access"
   for insert
   with check (true);
 
--- Create a policy that allows read access only to authenticated users (admins/staff)
-create policy "Allow staff read access"
-  on contact_inquiries
-  for select
-  using (true);
+-- SECURITY: No public read access - only service_role can read contact data
+-- Public users can still submit inquiries via the form (see "Allow public insert access" policy above)
 
