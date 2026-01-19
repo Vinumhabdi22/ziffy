@@ -87,10 +87,12 @@ create policy "Allow public insert access"
   with check (true);
 
 -- Create a policy that allows read access only to authenticated users (admins/staff) - generic for now, typically restricted
-create policy "Allow public read access"
+-- Create a policy that allows read access only to authenticated users (admins/staff)
+-- SECURE: Prevent public read access to PII
+create policy "Allow staff read access"
   on listing_inquiry
   for select
-  using (true);
+  using (false);
 
 -- Create newsletter_subscriptions table
 create table newsletter_subscriptions (
@@ -110,10 +112,11 @@ create policy "Allow public insert access"
   with check (true);
 
 -- Create a policy that allows read access only to authenticated users (admins/staff)
+-- SECURE: Prevent public read access to PII
 create policy "Allow staff read access"
   on newsletter_subscriptions
   for select
-  using (true);
+  using (false);
 
 -- Create partnership_leads table
 create table partnership_leads (
@@ -135,10 +138,11 @@ create policy "Allow public insert access"
   with check (true);
 
 -- Create a policy that allows read access only to authenticated users (admins/staff)
+-- SECURE: Prevent public read access to PII
 create policy "Allow staff read access"
   on partnership_leads
   for select
-  using (true);
+  using (false);
 
 -- Create sfr_leads table
 create table sfr_leads (
@@ -163,10 +167,11 @@ create policy "Allow public insert access"
 
 
 -- Create a policy that allows read access only to authenticated users (admins/staff)
+-- SECURE: Prevent public read access to PII
 create policy "Allow staff read access"
   on sfr_leads
   for select
-  using (true);
+  using (false);
 
 -- Create faqs table
 create table faqs (
@@ -212,8 +217,9 @@ create policy "Allow public insert access"
   with check (true);
 
 -- Create a policy that allows read access only to authenticated users (admins/staff)
+-- SECURE: Prevent public read access to PII
 create policy "Allow staff read access"
   on contact_inquiries
   for select
-  using (true);
+  using (false);
 
