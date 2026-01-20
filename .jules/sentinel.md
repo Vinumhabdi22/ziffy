@@ -1,0 +1,4 @@
+## 2025-02-18 - Server Actions Incompatibility with Static Export
+**Vulnerability:** Weak client-side validation and lack of rate limiting due to missing server runtime.
+**Learning:** The project is configured with `output: 'export'` for static hosting. This prevents the use of Next.js Server Actions, which are the standard way to implement server-side validation and logic in modern Next.js. I attempted to secure the contact form with a Server Action but had to pivot to robust client-side validation (Zod) and a honeypot field.
+**Prevention:** In the future, check `next.config.ts` for `output: 'export'` before planning server-side logic. If static export is required, rely on external functions (e.g., Supabase Edge Functions) for sensitive logic, or accept the limitations of client-side validation combined with backend RLS/Policies.
