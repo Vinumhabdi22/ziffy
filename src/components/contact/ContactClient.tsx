@@ -8,6 +8,7 @@ export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
+        confirm_email: '', // Honeypot field
         goal: '',
         message: ''
     });
@@ -30,8 +31,8 @@ export default function ContactClient() {
             ...prev,
             [name]: value
         }));
-        // Clear error for the field being edited
-        if (errors[name as keyof typeof errors]) {
+        // Clear error for the field being edited (unless it's the honeypot)
+        if (name !== 'confirm_email' && errors[name as keyof typeof errors]) {
             setErrors(prev => ({
                 ...prev,
                 [name]: ''
@@ -42,6 +43,22 @@ export default function ContactClient() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitStatus('idle');
+
+        // SECURITY: Honeypot check
+        // If the confirm_email field is filled, it's likely a bot.
+        // We simulate success to confuse the bot but do not send data.
+        if (formData.confirm_email) {
+            console.log('Spam detected: Honeypot field filled.');
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                confirm_email: '',
+                goal: '',
+                message: ''
+            });
+            return;
+        }
 
         // Validate form
         const newErrors = { fullName: '', email: '', goal: '' };
@@ -95,6 +112,7 @@ export default function ContactClient() {
                 setFormData({
                     fullName: '',
                     email: '',
+                    confirm_email: '',
                     goal: '',
                     message: ''
                 });
@@ -115,7 +133,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -125,6 +143,20 @@ export default function ContactClient() {
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Honeypot Field - Hidden */}
+                        <div className="opacity-0 absolute -left-[9999px] h-0 w-0 z-[-1] overflow-hidden" aria-hidden="true">
+                            <label htmlFor="confirm_email">Please leave this field blank</label>
+                            <input
+                                type="text"
+                                id="confirm_email"
+                                name="confirm_email"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                value={formData.confirm_email}
+                                onChange={handleChange}
+                            />
+                        </div>
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
