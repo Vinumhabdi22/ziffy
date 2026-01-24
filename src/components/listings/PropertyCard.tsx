@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Listing } from '@/types';
+import { generateListingSlug } from '@/utils/listingUtils';
 
 interface PropertyCardProps {
     listing: Listing;
@@ -58,7 +59,7 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
 
 
     return (
-        <Link href={`/listings/${listing.id}`} className="block group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-warm-gray-100">
+        <Link href={`/listings/${generateListingSlug(listing.address, listing.city, listing.state, listing.zipcode)}`} className="block group flex flex-col rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-warm-gray-100">
             {/* Image Section */}
             <div className="relative w-full aspect-[16/9] bg-warm-gray-100 overflow-hidden">
                 <div

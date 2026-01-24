@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ListingsFilter from './ListingsFilter';
 import PropertyGrid from './PropertyGrid';
-import LoadMore from './LoadMore';
+import Pagination from './Pagination';
 import { Listing } from '@/types';
 
 interface FilterOptions {
@@ -18,7 +19,15 @@ interface ListingsClientProps {
     filtersData: FilterOptions;
 }
 
+const ITEMS_PER_PAGE = 12;
+
 export default function ListingsClient({ initialListings, filtersData }: ListingsClientProps) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    // Read initial page from URL, default to 1
+    const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+
     const [selectedFilters, setSelectedFilters] = useState<FilterOptions>({
         status: [],
         priceRange: [],
@@ -28,6 +37,7 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
 
     const [searchQuery, setSearchQuery] = useState("");
     const [sortBy, setSortBy] = useState("Price: Low to High");
+    const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
     // Helper to parse percentage string to number
     const parsePercentage = (percentStr: string | undefined) => {
@@ -116,19 +126,62 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
         });
     }, [initialListings, selectedFilters, searchQuery, sortBy]);
 
+    // Calculate pagination
+    const totalPages = Math.ceil(filteredListings.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const currentListings = filteredListings.slice(startIndex, endIndex);
+
+    // Reset to page 1 when filters change
+    const handleFilterChange = (newFilters: FilterOptions) => {
+        setSelectedFilters(newFilters);
+        setCurrentPage(1);
+        router.push('/listings'); // Reset URL to page 1
+    };
+
+    const handleSearchChange = (query: string) => {
+        setSearchQuery(query);
+        setCurrentPage(1);
+        router.push('/listings'); // Reset URL to page 1
+    };
+
+    const handleSortChange = (sort: string) => {
+        setSortBy(sort);
+        setCurrentPage(1);
+        router.push('/listings'); // Reset URL to page 1
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+
+        // Update URL: page 1 = /listings, page 2+ = /listings?page=N
+        if (page === 1) {
+            router.push('/listings');
+        } else {
+            router.push(`/listings?page=${page}`);
+        }
+
+        // Scroll to top of listings smoothly
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <>
             <ListingsFilter
                 data={filtersData}
                 selectedFilters={selectedFilters}
-                onFilterChange={setSelectedFilters}
+                onFilterChange={handleFilterChange}
                 searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                onSearchChange={handleSearchChange}
                 sortBy={sortBy}
-                onSortChange={setSortBy}
+                onSortChange={handleSortChange}
             />
-            <PropertyGrid listings={filteredListings} />
-            <LoadMore />
+            <PropertyGrid listings={currentListings} />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </>
     );
 }

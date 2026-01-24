@@ -70,6 +70,51 @@ export interface Listing {
     expense_insurance: number;
     expense_maintenance: number;
     expense_management: number;
+    expense_hoa: number;
+    expense_utilities: number;
+    expense_gardener: number;
+    expense_trash: number;
+
+    // Facts & Features - General Information
+    architectural_style?: string;
+    building_area?: string;
+    living_area?: string;
+    property_condition?: string;
+
+    // Facts & Features - Features & Amenities
+    heating?: string;
+    cooling?: string;
+    flooring?: string;
+    interior_features?: string;
+    exterior_features?: string;
+    parking?: string;
+
+    // Facts & Features - Location Details
+    subdivision?: string;
+    lot_size?: string;
+    lot_features?: string;
+    view?: string;
+
+    // Facts & Features - HOA & Fees
+    hoa_fee?: string;
+    association_fee?: string;
+    fees_dues?: string;
+    association_amenities?: string;
+    fee_includes?: string;
+
+    // Facts & Features - Utilities
+    utilities?: string;
+    sewer?: string;
+    water_source?: string;
+    road_surface_type?: string;
+
+    // Facts & Features - School Information
+    elementary_school?: string;
+    middle_school?: string;
+    high_school?: string;
+
+    // Closing Costs
+    closing_costs_percentage?: number;
 
     // Optional / Calculated / Legacy support
     capRate?: string; // string for display
@@ -89,6 +134,10 @@ export interface CalculatorValues {
     insurance: number;
     maintenance: number;
     management: number;
+    hoaFees: number;
+    utilities: number;
+    gardener: number;
+    trash: number;
 }
 
 export interface CalculatorSetters {
@@ -101,6 +150,10 @@ export interface CalculatorSetters {
     setInsurance: (val: number) => void;
     setMaintenance: (val: number) => void;
     setManagement: (val: number) => void;
+    setHoaFees: (val: number) => void;
+    setUtilities: (val: number) => void;
+    setGardener: (val: number) => void;
+    setTrash: (val: number) => void;
 }
 
 export interface FAQ {

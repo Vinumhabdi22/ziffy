@@ -9,6 +9,12 @@ import PropertyDetails from './PropertyDetails';
 import PropertyOverview from './PropertyOverview';
 import InquiryForm from './InquiryForm';
 import InvestorCalculator from './InvestorCalculator';
+import FactsAndFeatures from './FactsAndFeatures';
+import FinancingInformation from './FinancingInformation';
+import CashRequiredAtClose from './CashRequiredAtClose';
+import MonthlyCashflowAnalysis from './MonthlyCashflowAnalysis';
+import YearOneROI from './YearOneROI';
+import YearFiveROI from './YearFiveROI';
 import { Listing } from '@/types';
 
 interface ListingDetailsClientProps {
@@ -26,6 +32,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
     const [insurance, setInsurance] = useState(listing.expense_insurance / 12);
     const [maintenance, setMaintenance] = useState(listing.expense_maintenance / 12);
     const [management, setManagement] = useState(listing.expense_management / 12);
+    const [hoaFees, setHoaFees] = useState(listing.expense_hoa / 12);
+    const [utilities, setUtilities] = useState(listing.expense_utilities / 12);
+    const [gardener, setGardener] = useState(listing.expense_gardener / 12);
+    const [trash, setTrash] = useState(listing.expense_trash / 12);
 
     // Financing State
     const [downPaymentPercent, setDownPaymentPercent] = useState(20);
@@ -43,11 +53,15 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
         ? (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
         : 0;
 
-    const totalMonthlyExpenses = propertyTax + insurance + maintenance + management;
+    const totalMonthlyExpenses = propertyTax + insurance + maintenance + management + hoaFees + utilities + gardener + trash;
     const totalMonthlyCost = monthlyMortgage + totalMonthlyExpenses;
     const monthlyCashFlow = rent - totalMonthlyCost;
     const annualCashFlow = monthlyCashFlow * 12;
     const annualNOI = (rent * 12) - (totalMonthlyExpenses * 12);
+
+    // Closing Costs Calculation
+    const closingCostsPercent = listing.closing_costs_percentage || 0;
+    const closingCosts = purchasePrice * (closingCostsPercent / 100);
 
     const capRate = (annualNOI / purchasePrice) * 100;
     const cashOnCash = (annualCashFlow / downPaymentAmount) * 100; // Simplified: usually includes closing costs
@@ -143,14 +157,68 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
     return (
         <div className="bg-background-light min-h-screen pb-20">
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <ListingHero listing={{ ...listing, price: purchasePrice }} />
+                <ListingHero listing={{ ...listing, price: purchasePrice }} metrics={metrics} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content Column */}
                     <div className="lg:col-span-2 space-y-8">
                         <PropertyOverview listing={listing} />
                         <FinancialAnalysis financials={financials} />
+                        <FinancingInformation
+                            listing={listing}
+                            calculatorValues={{
+                                proposedPrice: purchasePrice,
+                                downPaymentPercent: downPaymentPercent,
+                                interestRate: interestRate,
+                                termYears: loanTerm
+                            }}
+                        />
+                        <CashRequiredAtClose
+                            listing={listing}
+                            calculatorValues={{
+                                proposedPrice: purchasePrice,
+                                downPaymentPercent: downPaymentPercent,
+                                loanAmount: loanAmount
+                            }}
+                        />
+                        <MonthlyCashflowAnalysis
+                            calculatorValues={{
+                                rent: rent,
+                                monthlyMortgage: monthlyMortgage,
+                                propertyTax: propertyTax,
+                                insurance: insurance,
+                                gardener: gardener,
+                                trash: trash,
+                                utilities: utilities,
+                                maintenance: maintenance,
+                                hoaFees: hoaFees,
+                                management: management
+                            }}
+                        />
+                        <YearOneROI
+                            calculatorValues={{
+                                purchasePrice: purchasePrice,
+                                downPaymentAmount: downPaymentAmount,
+                                closingCosts: closingCosts,
+                                monthlyCashFlow: monthlyCashFlow,
+                                monthlyMortgage: monthlyMortgage,
+                                loanAmount: loanAmount,
+                                interestRate: interestRate
+                            }}
+                        />
+                        <YearFiveROI
+                            calculatorValues={{
+                                purchasePrice: purchasePrice,
+                                downPaymentAmount: downPaymentAmount,
+                                closingCosts: closingCosts,
+                                monthlyCashFlow: monthlyCashFlow,
+                                monthlyMortgage: monthlyMortgage,
+                                loanAmount: loanAmount,
+                                interestRate: interestRate
+                            }}
+                        />
                         <FinancialProjections projections={projections} />
+                        <FactsAndFeatures listing={listing} />
 
                         <PropertyDetails listing={listing} />
                     </div>
@@ -167,6 +235,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                                     insurance,
                                     maintenance,
                                     management,
+                                    hoaFees,
+                                    utilities,
+                                    gardener,
+                                    trash,
                                     downPaymentPercent,
                                     interestRate,
                                     loanTerm,
@@ -179,6 +251,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                                     setInsurance,
                                     setMaintenance,
                                     setManagement,
+                                    setHoaFees,
+                                    setUtilities,
+                                    setGardener,
+                                    setTrash,
                                     setDownPaymentPercent,
                                     setInterestRate,
                                     setLoanTerm

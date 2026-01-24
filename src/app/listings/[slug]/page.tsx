@@ -3,30 +3,40 @@ import Link from 'next/link';
 import ListingDetailsClient from '@/components/listing-details/ListingDetailsClient';
 import { Listing } from '@/types';
 import { notFound } from 'next/navigation';
+import { parseListingSlug, generateListingSlug } from '@/utils/listingUtils';
 
 export async function generateStaticParams() {
-    // For now we can skip static params or fetch all IDs from supabase if we want SSG.
-    // Given we are moving to DB, we might want to stick to dynamic rendering or generate a few.
-    // Let's return empty for now to allow dynamic generation on demand, or fetch IDs.
-    const { data } = await supabase.from('listings').select('id');
-    return (data || []).map((listing: { id: string }) => ({
-        id: listing.id,
+    // Fetch all listings and generate slugs for static generation
+    const { data } = await supabase.from('listings').select('address, city, state, zipcode');
+    return (data || []).map((listing: { address: string; city: string; state: string; zipcode: string }) => ({
+        slug: generateListingSlug(listing.address, listing.city, listing.state, listing.zipcode),
     }));
 }
 
-export default async function ListingDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+export default async function ListingDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
 
-    // Fetch data from Supabase
+    // Parse the slug to get address components
+    const parsed = parseListingSlug(slug);
+
+    if (!parsed) {
+        console.error("Invalid slug format:", slug);
+        notFound();
+    }
+
+    // Fetch data from Supabase using address components
+    // We'll query by matching all components for accuracy
     const { data, error } = await supabase
         .from('listings')
         .select('*')
-        .eq('id', id)
+        .ilike('address', parsed.address)
+        .ilike('city', parsed.city)
+        .ilike('state', parsed.state)
+        .ilike('zipcode', parsed.zipcode)
         .single();
 
     if (error || !data) {
         console.error("Error fetching listing:", error);
-        // return <div className="p-24 text-center">Listing not found</div>;
         notFound();
     }
 
@@ -35,7 +45,7 @@ export default async function ListingDetailsPage({ params }: { params: Promise<{
     return (
         <>
             {/* Breadcrumbs - Keep Server Side for SEO */}
-            <div className="bg-background-light max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2">
                 <div className="flex items-center gap-2 text-sm text-warm-gray-500 mb-2 mt-4">
                     <Link href="/listings" className="hover:text-primary transition-colors">Marketplace</Link>
                     <span>/</span>

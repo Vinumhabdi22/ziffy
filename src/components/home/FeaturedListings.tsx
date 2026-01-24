@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Listing } from "@/types";
+import { generateListingSlug } from "@/utils/listingUtils";
 
 interface FeaturedListingsProps {
     data: {
@@ -57,17 +58,17 @@ export default function FeaturedListings({ data, listings }: FeaturedListingsPro
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {listings.map((item) => (
                         <Link
-                            href={`/listings/${item.id}`}
+                            href={`/listings/${generateListingSlug(item.address, item.city, item.state, item.zipcode)}`}
                             key={item.id}
                             className="group cursor-pointer flex flex-col bg-white rounded-3xl overflow-hidden border border-warm-gray-200 hover:border-emerald-accent/50 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-accent/10 hover:-translate-y-2"
                         >
                             <div className="relative h-64 w-full overflow-hidden">
                                 {item.badge && (
                                     <div className={`absolute top-4 left-4 z-10 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide flex items-center gap-1.5 shadow-sm ${item.badge === "New Listing"
-                                            ? "bg-white/90 backdrop-blur-md text-text-dark border border-warm-gray-200"
-                                            : item.badge === "AI-Verified"
-                                                ? "bg-teal-500/95 text-white backdrop-blur-sm"
-                                                : "bg-indigo-600/95 text-white backdrop-blur-sm"
+                                        ? "bg-white/90 backdrop-blur-md text-text-dark border border-warm-gray-200"
+                                        : item.badge === "AI-Verified"
+                                            ? "bg-teal-500/95 text-white backdrop-blur-sm"
+                                            : "bg-indigo-600/95 text-white backdrop-blur-sm"
                                         }`}>
                                         {item.badge === "New Listing" && <span className="size-2 rounded-full bg-emerald-accent animate-pulse"></span>}
                                         {item.badge === "AI-Verified" && <span className="material-symbols-outlined text-[16px]">verified</span>}

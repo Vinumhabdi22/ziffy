@@ -12,12 +12,12 @@ export default function PropertyDetails({ listing }: PropertyDetailsProps) {
     return (
         <div className="bg-white rounded-xl border border-warm-gray-200 overflow-hidden shadow-sm mb-6">
             <div className="px-6 py-4 border-b border-warm-gray-200">
-                <h3 className="font-bold text-lg text-text-dark">Property Details</h3>
+                <h3 className="font-bold text-lg text-text-dark">Property Location</h3>
             </div>
             <div className="p-6">
 
 
-                <div className="mb-8">
+                {/* <div className="mb-8">
                     <h4 className="text-sm font-bold uppercase text-warm-gray-400 mb-3">Key Features</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8">
                         {listing.features?.map((feature: string, index: number) => (
@@ -27,7 +27,7 @@ export default function PropertyDetails({ listing }: PropertyDetailsProps) {
                             </div>
                         )) || <p>No features listed.</p>}
                     </div>
-                </div>
+                </div> */}
 
                 <div>
                     <h4 className="text-sm font-bold uppercase text-warm-gray-400 mb-3">Location</h4>

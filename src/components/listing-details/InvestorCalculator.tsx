@@ -180,7 +180,7 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
                             <span className="font-bold text-sm text-text-dark">Expenses</span>
                             <div className="flex items-center gap-2">
                                 <span className="font-bold text-sm text-text-dark">
-                                    {formatCurrency(Math.round(values.propertyTax + values.insurance + values.maintenance + values.management))}/mo
+                                    {formatCurrency(Math.round(values.propertyTax + values.insurance + values.maintenance + values.management + values.hoaFees + values.utilities + values.gardener + values.trash))}/mo
                                 </span>
                                 <span className="text-primary text-[10px] font-bold uppercase flex items-center">
                                     Edit <span className="material-symbols-outlined text-[14px]">{isExpensesOpen ? 'expand_less' : 'edit'}</span>
@@ -237,6 +237,54 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
                                         />
                                     </div>
                                 </div>
+                                <div>
+                                    <label className="text-[10px] text-warm-gray-500 font-bold uppercase mb-1 block">HOA Fees</label>
+                                    <div className="relative">
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray-400 text-xs">$</span>
+                                        <input
+                                            type="number"
+                                            value={Math.round(values.hoaFees)}
+                                            onChange={(e) => setters.setHoaFees(Number(e.target.value))}
+                                            className="w-full pl-5 pr-2 py-1.5 rounded border border-warm-gray-300 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] text-warm-gray-500 font-bold uppercase mb-1 block">Utilities</label>
+                                    <div className="relative">
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray-400 text-xs">$</span>
+                                        <input
+                                            type="number"
+                                            value={Math.round(values.utilities)}
+                                            onChange={(e) => setters.setUtilities(Number(e.target.value))}
+                                            className="w-full pl-5 pr-2 py-1.5 rounded border border-warm-gray-300 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] text-warm-gray-500 font-bold uppercase mb-1 block">Gardener</label>
+                                    <div className="relative">
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray-400 text-xs">$</span>
+                                        <input
+                                            type="number"
+                                            value={Math.round(values.gardener)}
+                                            onChange={(e) => setters.setGardener(Number(e.target.value))}
+                                            className="w-full pl-5 pr-2 py-1.5 rounded border border-warm-gray-300 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] text-warm-gray-500 font-bold uppercase mb-1 block">Trash</label>
+                                    <div className="relative">
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-warm-gray-400 text-xs">$</span>
+                                        <input
+                                            type="number"
+                                            value={Math.round(values.trash)}
+                                            onChange={(e) => setters.setTrash(Number(e.target.value))}
+                                            className="w-full pl-5 pr-2 py-1.5 rounded border border-warm-gray-300 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -248,7 +296,7 @@ export default function InvestorCalculator({ values, setters }: InvestorCalculat
                         Total Cash Flow <span className="material-symbols-outlined text-[14px] cursor-help" title="Net income after all expenses">info</span>
                     </div>
                     <div className="text-xl font-extrabold text-text-dark">
-                        {formatCurrency(Math.round(values.rent - (values.monthlyMortgage + values.propertyTax + values.insurance + values.maintenance + values.management)))}
+                        {formatCurrency(Math.round(values.rent - (values.monthlyMortgage + values.propertyTax + values.insurance + values.maintenance + values.management + values.hoaFees + values.utilities + values.gardener + values.trash)))}
                     </div>
                 </div>
             </div>
