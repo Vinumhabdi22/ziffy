@@ -8,10 +8,15 @@ export async function generateStaticParams() {
     // For now we can skip static params or fetch all IDs from supabase if we want SSG.
     // Given we are moving to DB, we might want to stick to dynamic rendering or generate a few.
     // Let's return empty for now to allow dynamic generation on demand, or fetch IDs.
-    const { data } = await supabase.from('listings').select('id');
-    return (data || []).map((listing: { id: string }) => ({
-        id: listing.id,
-    }));
+    try {
+        const { data } = await supabase.from('listings').select('id');
+        return (data || []).map((listing: { id: string }) => ({
+            id: listing.id,
+        }));
+    } catch (error) {
+        console.warn('Failed to generate static params:', error);
+        return [];
+    }
 }
 
 export default async function ListingDetailsPage({ params }: { params: Promise<{ id: string }> }) {
