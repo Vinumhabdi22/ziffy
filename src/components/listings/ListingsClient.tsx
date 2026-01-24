@@ -161,8 +161,10 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
             router.push(`/listings?page=${page}`);
         }
 
-        // Scroll to top of listings smoothly
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Scroll to top of listings smoothly (only in browser)
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     return (
