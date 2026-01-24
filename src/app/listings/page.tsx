@@ -1,7 +1,11 @@
 import { supabase } from '@/utils/supabase/client';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import ListingsClient from '@/components/listings/ListingsClient';
 import { Listing } from '@/types';
+
+// Force dynamic rendering to avoid prerender issues with useSearchParams
+export const dynamic = 'force-dynamic';
 
 // Mock filters for now, or fetch from DB if we had a filters table. 
 // Since filters are UI options, they can remain hardcoded or derived.
@@ -79,10 +83,16 @@ export default async function ListingsPage() {
                         </button> */}
                     </div>
 
-                    <ListingsClient
-                        initialListings={listings}
-                        filtersData={FILTERS}
-                    />
+                    <Suspense fallback={
+                        <div className="flex justify-center items-center py-20">
+                            <div className="text-warm-gray-500">Loading listings...</div>
+                        </div>
+                    }>
+                        <ListingsClient
+                            initialListings={listings}
+                            filtersData={FILTERS}
+                        />
+                    </Suspense>
                 </div>
             </div>
         </div>
