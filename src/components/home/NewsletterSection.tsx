@@ -68,7 +68,7 @@ const NewsletterSection = ({ data }: NewsletterProps) => {
                 setMessage('Thanks for subscribing! Check your inbox soon.');
                 setEmail('');
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Newsletter error:', error);
             setStatus('error');
             setMessage('Something went wrong. Please try again.');
