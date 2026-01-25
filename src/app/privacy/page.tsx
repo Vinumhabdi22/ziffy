@@ -1,4 +1,5 @@
 import privacyContent from '@/../content/privacy.json';
+import Link from 'next/link';
 
 export const metadata = {
     title: 'Privacy Policy | Ziffy AI',
@@ -68,13 +69,13 @@ export default function PrivacyPage() {
 
                     {/* Back to Home */}
                     <div className="mt-8 text-center">
-                        <a
+                        <Link
                             href="/"
                             className="inline-flex items-center gap-2 text-emerald-accent font-medium"
                         >
                             <span className="material-symbols-outlined text-xl">arrow_back</span>
                             Back to Home
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
