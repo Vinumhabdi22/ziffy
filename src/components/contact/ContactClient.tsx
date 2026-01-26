@@ -1,28 +1,34 @@
 "use client";
 
 import { useState } from 'react';
+import { z } from 'zod';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+
+// Security: Zod schema for input validation
+const contactSchema = z.object({
+    fullName: z.string().min(1, 'Full name is required'),
+    email: z.string().email('Please enter a valid email address'),
+    goal: z.string().min(1, 'Please select an investment goal'),
+    message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional(),
+    confirm_email: z.string().optional() // Honeypot field
+});
 
 export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         goal: '',
-        message: ''
+        message: '',
+        confirm_email: '' // Honeypot field - should remain empty
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [errors, setErrors] = useState({
-        fullName: '',
-        email: '',
-        goal: ''
-    });
-
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
+    const [errors, setErrors] = useState<{
+        fullName?: string;
+        email?: string;
+        goal?: string;
+    }>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -30,12 +36,14 @@ export default function ContactClient() {
             ...prev,
             [name]: value
         }));
+
         // Clear error for the field being edited
-        if (errors[name as keyof typeof errors]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
+        if (name in errors) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name as keyof typeof errors];
+                return newErrors;
+            });
         }
     };
 
@@ -43,31 +51,32 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
+        // Security: Validate with Zod
+        const result = contactSchema.safeParse(formData);
 
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
+        if (!result.success) {
+            const newErrors: Record<string, string> = {};
+            result.error.issues.forEach((issue) => {
+                if (issue.path[0]) {
+                    newErrors[issue.path[0].toString()] = issue.message;
+                }
+            });
+            setErrors(newErrors);
+            return;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
-
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
-
-        setErrors(newErrors);
-
-        if (!isValid) {
+        // Security: Honeypot check
+        // If the hidden confirm_email field is filled, it's likely a bot.
+        // We simulate a successful submission but do not send data to the server.
+        if (formData.confirm_email) {
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                goal: '',
+                message: '',
+                confirm_email: ''
+            });
             return;
         }
 
@@ -96,7 +105,8 @@ export default function ContactClient() {
                     fullName: '',
                     email: '',
                     goal: '',
-                    message: ''
+                    message: '',
+                    confirm_email: ''
                 });
             }
         } catch (error) {
@@ -115,7 +125,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -125,6 +135,20 @@ export default function ContactClient() {
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Security: Honeypot Field */}
+                        <div style={{ display: 'none' }} aria-hidden="true">
+                            <label htmlFor="confirm_email">Please leave this field blank</label>
+                            <input
+                                type="text"
+                                id="confirm_email"
+                                name="confirm_email"
+                                value={formData.confirm_email}
+                                onChange={handleChange}
+                                tabIndex={-1}
+                                autoComplete="off"
+                            />
+                        </div>
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
