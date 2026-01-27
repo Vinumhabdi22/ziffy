@@ -1,15 +1,25 @@
 "use client";
 
 import { useState } from 'react';
+import { z } from 'zod';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+
+const contactSchema = z.object({
+    fullName: z.string().min(1, 'Full name is required'),
+    email: z.string().email('Please enter a valid email address'),
+    goal: z.string().min(1, 'Please select an investment goal'),
+    message: z.string().max(1000),
+    confirm_email: z.string().optional()
+});
 
 export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         goal: '',
-        message: ''
+        message: '',
+        confirm_email: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -18,11 +28,6 @@ export default function ContactClient() {
         email: '',
         goal: ''
     });
-
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -43,31 +48,30 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
-
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
+        // Honeypot check: If the hidden field is filled, it's a bot
+        if (formData.confirm_email) {
+            // Silently return success to confuse the bot
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                goal: '',
+                message: '',
+                confirm_email: ''
+            });
+            return;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
+        // Validate form using Zod
+        const result = contactSchema.safeParse(formData);
 
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
-
-        setErrors(newErrors);
-
-        if (!isValid) {
+        if (!result.success) {
+            const fieldErrors = result.error.flatten().fieldErrors;
+            setErrors({
+                fullName: fieldErrors.fullName?.[0] || '',
+                email: fieldErrors.email?.[0] || '',
+                goal: fieldErrors.goal?.[0] || ''
+            });
             return;
         }
 
@@ -96,7 +100,8 @@ export default function ContactClient() {
                     fullName: '',
                     email: '',
                     goal: '',
-                    message: ''
+                    message: '',
+                    confirm_email: ''
                 });
             }
         } catch (error) {
@@ -115,7 +120,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -124,7 +129,19 @@ export default function ContactClient() {
 
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative">
+                        {/* Honeypot Field - Hidden */}
+                        <input
+                            type="text"
+                            name="confirm_email"
+                            value={formData.confirm_email}
+                            onChange={handleChange}
+                            tabIndex={-1}
+                            autoComplete="off"
+                            aria-hidden="true"
+                            className="opacity-0 absolute -left-[9999px] top-0 h-0 w-0 pointer-events-none"
+                        />
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
