@@ -23,8 +23,8 @@ export default function CashRequiredAtClose({ listing, calculatorValues }: CashR
     const closingCostsPercentage = listing.closing_costs_percentage || 0;
     const estimatedClosingCosts = proposedPrice * (closingCostsPercentage / 100);
 
-    // Net Cash Required
-    const netCashRequired = downPayment + loanOrigination + estimatedClosingCosts;
+    // Net Cash Required (includes rehab cost)
+    const netCashRequired = downPayment + loanOrigination + estimatedClosingCosts + (listing.estimated_rehab_cost || 0);
 
     const formatCurrency = (val: number) => val.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
@@ -57,6 +57,12 @@ export default function CashRequiredAtClose({ listing, calculatorValues }: CashR
                             Estimated Closing Costs ({closingCostsPercentage}%)
                         </span>
                         <span className="text-[#111814] font-bold">{formatCurrency(estimatedClosingCosts)}</span>
+                    </div>
+
+                    {/* Estimated Rehab Cost */}
+                    <div className="flex justify-between items-center py-3 border-b border-warm-gray-100">
+                        <span className="text-warm-gray-600 font-medium">Estimated Rehab Cost</span>
+                        <span className="text-[#111814] font-bold">{formatCurrency(listing.estimated_rehab_cost || 0)}</span>
                     </div>
 
                     {/* Net Cash Required */}

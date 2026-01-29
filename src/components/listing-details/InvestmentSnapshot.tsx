@@ -22,25 +22,25 @@ export default function InvestmentSnapshot({ metrics }: InvestmentSnapshotProps)
                 <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1 text-xs text-warm-gray-500">
-                            Gross Yield <span className="material-symbols-outlined text-[14px] cursor-help">help</span>
+                            Gross Yield <span className="material-symbols-outlined text-[14px] cursor-help" title="Annual rental income as a percentage of purchase price">help</span>
                         </div>
                         <div className="text-xl font-bold text-text-dark">{metrics.grossYield}</div>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1 text-xs text-warm-gray-500">
-                            Cap Rate <span className="material-symbols-outlined text-[14px] cursor-help">help</span>
+                            Cap Rate <span className="material-symbols-outlined text-[14px] cursor-help" title="Net Operating Income divided by property value">help</span>
                         </div>
                         <div className="text-xl font-bold text-green-600">{metrics.capRate}</div>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1 text-xs text-warm-gray-500">
-                            Cash on Cash <span className="material-symbols-outlined text-[14px] cursor-help">help</span>
+                            Cash on Cash <span className="material-symbols-outlined text-[14px] cursor-help" title="Annual cash flow as a percentage of total cash invested">help</span>
                         </div>
                         <div className="text-xl font-bold text-primary">{metrics.cashOnCash}</div>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1 text-xs text-warm-gray-500">
-                            5yr Return <span className="material-symbols-outlined text-[14px] cursor-help">help</span>
+                            5yr Return <span className="material-symbols-outlined text-[14px] cursor-help" title="Total cumulative return over 5 years including cash flow, equity buildup, and appreciation">help</span>
                         </div>
                         <div className="text-xl font-bold text-text-dark">{metrics.totalReturn5Yr}</div>
                     </div>

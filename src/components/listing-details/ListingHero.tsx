@@ -74,10 +74,10 @@ export default function ListingHero({ listing, metrics }: ListingHeroProps) {
                         <span className="text-2xl font-bold text-[#111814] mt-1">{metrics?.grossYield || listing.grossYield || 'N/A'}</span>
                     </div>
 
-                    {/* 5-Yr ROI Badge */}
+                    {/* Year 1 ROI Badge */}
                     <div className="flex flex-col justify-center p-4 rounded-xl border border-warm-gray-200 bg-white shadow-sm">
-                        <span className="text-sm text-warm-gray-500">5-Yr ROI</span>
-                        <span className="text-2xl font-bold text-[#111814] mt-1">{metrics?.totalReturn5Yr || listing.roi || 'N/A'}</span>
+                        <span className="text-sm text-warm-gray-500">Year 1 ROI</span>
+                        <span className="text-2xl font-bold text-[#111814] mt-1">{metrics?.year1ROI || listing.roi || 'N/A'}</span>
                     </div>
 
                     {/* Est. Rent Badge */}

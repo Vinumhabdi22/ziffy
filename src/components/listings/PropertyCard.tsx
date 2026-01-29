@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Listing } from '@/types';
 import { generateListingSlug } from '@/utils/listingUtils';
+import { calculateYear1ROI } from '@/utils/roiCalculations';
 
 interface PropertyCardProps {
     listing: Listing;
@@ -40,22 +41,31 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
 
     const formatPercent = (val: number) => `${val?.toFixed(1)}%`;
 
-    // Calculations
+    // Calculate Year 1 ROI including Tax Savings using shared utility
+    const annualExpenses = (listing.expense_tax || 0) + (listing.expense_insurance || 0) +
+        (listing.expense_maintenance || 0) + (listing.expense_management || 0) +
+        (listing.expense_hoa || 0) + (listing.expense_utilities || 0) +
+        (listing.expense_gardener || 0) + (listing.expense_trash || 0);
+
+    const roiResults = calculateYear1ROI({
+        purchasePrice: listing.price,
+        estimatedRent: listing.estimated_rent || 0,
+        annualExpenses: annualExpenses,
+        downPaymentPercent: 20,
+        interestRate: 6.5,
+        loanTermYears: 30,
+        closingCostsPercent: listing.closing_costs_percentage || 0,
+        stabilizedMarketValue: listing.stabilized_market_value || 0,
+        estimatedRehabCost: listing.estimated_rehab_cost || 0
+    });
+
+    // Use Year 1 ROI including Tax Savings
+    const year1ROI = roiResults.returnOnCashInvestedWithTax;
+
+    // Calculate Cap Rate for display
     const annualRent = (listing.estimated_rent || 0) * 12;
-    const annualExpenses = (listing.expense_tax || 0) + (listing.expense_insurance || 0) + (listing.expense_maintenance || 0) + (listing.expense_management || 0);
     const noi = annualRent - annualExpenses;
     const capRate = listing.price ? (noi / listing.price) * 100 : 0;
-
-    // Simplified ROI/Cash-on-Cash for card view (assuming 20% down, 6.5% interest, 30yr)
-    // This replicates the logic in ListingDetailsClient but simplified
-    const downPayment = listing.price * 0.20;
-    const loanAmount = listing.price * 0.80;
-    const monthlyRate = 6.5 / 100 / 12;
-    const loanTermMonths = 30 * 12;
-    const monthlyMortgage = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, loanTermMonths)) / (Math.pow(1 + monthlyRate, loanTermMonths) - 1);
-    const annualDebtService = monthlyMortgage * 12;
-    const annualCashFlow = noi - annualDebtService;
-    const cashOnCash = downPayment > 0 ? (annualCashFlow / downPayment) * 100 : 0;
 
 
     return (
@@ -115,14 +125,24 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
 
                 {/* Financial Footer */}
                 <div className="mt-auto pt-4 border-t border-warm-gray-100">
-                    <div className="grid grid-cols-3 gap-2 bg-gray-50 rounded-lg p-3">
+                    <div className="grid grid-cols-5 gap-2 bg-gray-50 rounded-lg p-3">
+                        <div className="flex flex-col items-center border-r border-warm-gray-200">
+                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">EMV</span>
+                            <span className="text-text-dark text-sm font-bold">{formatCurrency(listing.estimated_market_value || 0)}</span>
+                        </div>
+                        <div className="flex flex-col items-center border-r border-warm-gray-200">
+                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Equity</span>
+                            <span className={`text-sm font-bold ${roiResults.builtInEquity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {formatCurrency(roiResults.builtInEquity)}
+                            </span>
+                        </div>
                         <div className="flex flex-col items-center border-r border-warm-gray-200">
                             <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Rent</span>
                             <span className="text-text-dark text-sm font-bold">{formatCurrency(listing.estimated_rent)}</span>
                         </div>
                         <div className="flex flex-col items-center border-r border-warm-gray-200">
                             <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">ROI</span>
-                            <span className="text-green-600 text-sm font-extrabold">{formatPercent(cashOnCash)}</span>
+                            <span className="text-green-600 text-sm font-extrabold">{formatPercent(year1ROI)}</span>
                         </div>
                         <div className="flex flex-col items-center">
                             <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Cap Rate</span>

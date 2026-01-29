@@ -4,6 +4,7 @@ export interface InvestmentMetrics {
     capRate: string;
     cashOnCash: string;
     totalReturn5Yr: string;
+    year1ROI: string;
     monthlyCashFlow: string;
 }
 
@@ -115,6 +116,11 @@ export interface Listing {
 
     // Closing Costs
     closing_costs_percentage?: number;
+
+    // Financial Valuation Fields
+    estimated_market_value?: number;
+    estimated_rehab_cost?: number;
+    stabilized_market_value?: number;
 
     // Optional / Calculated / Legacy support
     capRate?: string; // string for display

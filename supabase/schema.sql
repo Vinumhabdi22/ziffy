@@ -72,6 +72,11 @@ create table listings (
   -- Closing Costs
   closing_costs_percentage numeric,
   
+  -- Financial Valuation Fields
+  estimated_market_value numeric default 0,
+  estimated_rehab_cost numeric default 0,
+  stabilized_market_value numeric default 0,
+  
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -94,7 +99,8 @@ insert into listings (
   subdivision, lot_size, lot_features, view,
   hoa_fee, association_fee, fees_dues, association_amenities, fee_includes,
   utilities, sewer, water_source, road_surface_type,
-  elementary_school, middle_school, high_school
+  elementary_school, middle_school, high_school,
+  estimated_market_value, estimated_rehab_cost, stabilized_market_value
 ) values
 (
   'Modern Geometric Villa', '123 Main St', 'Brooklyn', 'NY', '11201', 850000, 3, 2, 1200, 2015, 'Single Family',
@@ -109,7 +115,8 @@ insert into listings (
   'Park Slope Historic District', '9,016 sq ft', 'Corner Lot, Level', 'City Skyline',
   '$250/month', 'N/A', '$250/month', 'Community Garden, Playground', 'Maintenance, Snow Removal',
   'All Public', 'Public Sewer', 'Municipal', 'Paved',
-  'PS 321 Brooklyn', 'William Alexander Middle School', 'Berkeley Carroll School'
+  'PS 321 Brooklyn', 'William Alexander Middle School', 'Berkeley Carroll School',
+  850000, 0, 850000
 ),
 (
   'Luxury Glass Estate', '45 Park Avenue', 'Manhattan', 'NY', '10016', 1200000, 2, 2, 950, 2018, 'Condo',
@@ -124,7 +131,8 @@ insert into listings (
   'Murray Hill', 'N/A (High-Rise Condo)', 'N/A', 'Panoramic City Views',
   '$1,200/month', '$1,200/month', '$1,200/month', 'Doorman, Gym, Rooftop Terrace, Pool', 'All Utilities, Concierge',
   'All Included', 'Building System', 'Building System', 'N/A',
-  'PS 116 Manhattan', 'The Salk School of Science', 'Stuyvesant High School'
+  'PS 116 Manhattan', 'The Salk School of Science', 'Stuyvesant High School',
+  1250000, 25000, 1250000
 );
 
 -- Create listing_inquiry table

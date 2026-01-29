@@ -16,6 +16,7 @@ import MonthlyCashflowAnalysis from './MonthlyCashflowAnalysis';
 import YearOneROI from './YearOneROI';
 import YearFiveROI from './YearFiveROI';
 import { Listing } from '@/types';
+import { calculateYear1ROI } from '@/utils/roiCalculations';
 
 interface ListingDetailsClientProps {
     listing: Listing;
@@ -67,6 +68,20 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
     const cashOnCash = (annualCashFlow / downPaymentAmount) * 100; // Simplified: usually includes closing costs
     const grossYield = ((rent * 12) / purchasePrice) * 100;
 
+    // Calculate Year 1 ROI including Tax Savings using shared utility
+    const annualExpenses = totalMonthlyExpenses * 12;
+    const year1ROIResults = calculateYear1ROI({
+        purchasePrice,
+        estimatedRent: rent,
+        annualExpenses,
+        downPaymentPercent,
+        interestRate,
+        loanTermYears: loanTerm,
+        closingCostsPercent,
+        stabilizedMarketValue: listing.stabilized_market_value || 0,
+        estimatedRehabCost: listing.estimated_rehab_cost || 0
+    });
+
     // 5-Year Return Calculation
     const APPRECIATION_RATE = 0.03; // 3% annual property appreciation
     const propertyValueYear5 = purchasePrice * Math.pow(1 + APPRECIATION_RATE, 5);
@@ -105,7 +120,12 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
         capRate: `${capRate.toFixed(1)}%`,
         cashOnCash: `${cashOnCash.toFixed(1)}%`,
         totalReturn5Yr: `${totalReturn5Yr.toFixed(0)}%`,
-        roi: `${cashOnCash.toFixed(1)}%` // aligning ROI with CoC for simplicity
+        year1ROI: `${year1ROIResults.returnOnCashInvestedWithTax.toFixed(1)}%`, // Year 1 ROI including Tax Savings
+        roi: `${cashOnCash.toFixed(1)}%`, // aligning ROI with CoC for simplicity
+        estimatedMarketValue: `$${(listing.estimated_market_value || 0).toLocaleString('en-US')}`,
+        stabilizedMarketValue: `$${(listing.stabilized_market_value || 0).toLocaleString('en-US')}`,
+        estimatedRehabCost: `$${(listing.estimated_rehab_cost || 0).toLocaleString('en-US')}`,
+        builtInEquity: `$${year1ROIResults.builtInEquity.toLocaleString('en-US')}`
     };
 
     const financials = {
@@ -203,7 +223,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                                 monthlyCashFlow: monthlyCashFlow,
                                 monthlyMortgage: monthlyMortgage,
                                 loanAmount: loanAmount,
-                                interestRate: interestRate
+                                interestRate: interestRate,
+                                stabilizedMarketValue: listing.stabilized_market_value || 0,
+                                estimatedRehabCost: listing.estimated_rehab_cost || 0,
+                                builtInEquity: year1ROIResults.builtInEquity
                             }}
                         />
                         <YearFiveROI
@@ -214,7 +237,10 @@ export default function ListingDetailsClient({ listing }: ListingDetailsClientPr
                                 monthlyCashFlow: monthlyCashFlow,
                                 monthlyMortgage: monthlyMortgage,
                                 loanAmount: loanAmount,
-                                interestRate: interestRate
+                                interestRate: interestRate,
+                                stabilizedMarketValue: listing.stabilized_market_value || 0,
+                                estimatedRehabCost: listing.estimated_rehab_cost || 0,
+                                builtInEquity: year1ROIResults.builtInEquity
                             }}
                         />
                         <FinancialProjections projections={projections} />

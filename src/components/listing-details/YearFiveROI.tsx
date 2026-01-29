@@ -9,6 +9,9 @@ interface YearFiveROIProps {
         monthlyMortgage: number;
         loanAmount: number;
         interestRate: number;
+        stabilizedMarketValue?: number;
+        estimatedRehabCost?: number;
+        builtInEquity?: number;
     };
 }
 
@@ -21,6 +24,9 @@ export default function YearFiveROI({ calculatorValues }: YearFiveROIProps) {
         monthlyMortgage,
         loanAmount,
         interestRate,
+        stabilizedMarketValue = 0,
+        estimatedRehabCost = 0,
+        builtInEquity = 0,
     } = calculatorValues;
 
     const YEARS = 5;
@@ -51,8 +57,8 @@ export default function YearFiveROI({ calculatorValues }: YearFiveROIProps) {
     const futurePropertyValue = purchasePrice * Math.pow(1 + APPRECIATION_RATE, YEARS);
     const totalAppreciation = futurePropertyValue - purchasePrice;
 
-    // Total Cumulative Return
-    const totalCumulativeReturn = cumulativeCashFlow + cumulativePrincipalPaid + totalAppreciation;
+    // Total Cumulative Return (including Built-In Equity)
+    const totalCumulativeReturn = cumulativeCashFlow + cumulativePrincipalPaid + totalAppreciation + builtInEquity;
 
     // Return on Cash Invested
     const returnOnCashInvested = cashInvestment > 0 ? (totalCumulativeReturn / cashInvestment) * 100 : 0;
@@ -130,6 +136,12 @@ export default function YearFiveROI({ calculatorValues }: YearFiveROIProps) {
                             </span>
                             <span className="text-sm font-semibold" style={{ color: '#111814' }}>
                                 {formatCurrency(totalAppreciation)}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-warm-gray-100">
+                            <span className="text-sm text-warm-gray-600">Built-In Equity</span>
+                            <span className={`text-sm font-semibold ${builtInEquity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {formatCurrency(builtInEquity)}
                             </span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-warm-gray-200">

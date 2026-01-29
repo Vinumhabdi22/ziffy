@@ -1,5 +1,7 @@
 "use client";
 
+import { calculateYear1ROI } from '@/utils/roiCalculations';
+
 interface YearOneROIProps {
     calculatorValues: {
         purchasePrice: number;
@@ -9,21 +11,27 @@ interface YearOneROIProps {
         monthlyMortgage: number;
         loanAmount: number;
         interestRate: number;
+        stabilizedMarketValue?: number;
+        estimatedRehabCost?: number;
+        builtInEquity?: number;
     };
 }
 
 export default function YearOneROI({ calculatorValues }: YearOneROIProps) {
     const {
         purchasePrice,
-        downPaymentAmount,
         closingCosts,
         monthlyCashFlow,
         monthlyMortgage,
         loanAmount,
         interestRate,
+        stabilizedMarketValue = 0,
+        estimatedRehabCost = 0,
+        builtInEquity = 0,
     } = calculatorValues;
 
-    // Calculate Cash Investment (Down Payment + Closing Costs)
+    // Cash Investment (Down Payment + Closing Costs)
+    const downPaymentAmount = purchasePrice - loanAmount;
     const cashInvestment = downPaymentAmount + closingCosts;
 
     // Calculate Annual Cash Flow
@@ -39,8 +47,8 @@ export default function YearOneROI({ calculatorValues }: YearOneROIProps) {
     const appreciationRate = 0.05;
     const annualAppreciation = purchasePrice * appreciationRate;
 
-    // Total Annual Return
-    const totalAnnualReturn = annualCashFlow + annualLoanPaydown + annualAppreciation;
+    // Total Annual Return (including Built-In Equity)
+    const totalAnnualReturn = annualCashFlow + annualLoanPaydown + annualAppreciation + builtInEquity;
 
     // Return on Cash Invested
     const returnOnCashInvested = cashInvestment > 0 ? (totalAnnualReturn / cashInvestment) * 100 : 0;
@@ -116,6 +124,12 @@ export default function YearOneROI({ calculatorValues }: YearOneROIProps) {
                             <span className="text-sm text-warm-gray-600">Annual Appreciation {appreciationRate * 100}%</span>
                             <span className="text-sm font-semibold" style={{ color: '#111814' }}>
                                 {formatCurrency(annualAppreciation)}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-warm-gray-100">
+                            <span className="text-sm text-warm-gray-600">Built-In Equity</span>
+                            <span className={`text-sm font-semibold ${builtInEquity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {formatCurrency(builtInEquity)}
                             </span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-warm-gray-200">
