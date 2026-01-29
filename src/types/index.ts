@@ -122,6 +122,9 @@ export interface Listing {
     estimated_rehab_cost?: number;
     stabilized_market_value?: number;
 
+    // Featured Status
+    is_featured?: boolean;
+
     // Optional / Calculated / Legacy support
     capRate?: string; // string for display
     grossYield?: string;

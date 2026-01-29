@@ -23,16 +23,9 @@ export default async function Home() {
     const { data: listings, error } = await supabase
       .from('listings')
       .select('*')
-      // Assuming we want to filter by badge 'Featured', or strictly speaking the user asked for "Featured" badge.
-      // The sample data has "Modern Geometric Villa" as badge? No field is badge_color
-      // Let's filter slightly loosely or grab all if few. The user said "only badge with the "Featured"".
-      .eq('badge', 'Featured');
-
-    // Note: If no listings have exactly "Featured", this might return empty.
-    // I'll assume the user will update data or the sample data I added earlier has badges.
-    // Reviewing schema.sql: I inserted badges like 'AI-Verified', 'High Yield', 'New Listing'.
-    // I should probably fetch 'New Listing' or similar if 'Featured' doesn't exist yet, 
-    // OR better, I will obey the user strictly: .eq('badge', 'Featured').
+      // Fetch only listings marked as featured
+      // This allows listings to have other badges like "New Listing" or "AI-Verified"
+      .eq('is_featured', true);
 
     if (error) {
       console.error("Error fetching featured listings:", error);

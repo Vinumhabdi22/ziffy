@@ -73,9 +73,13 @@ create table listings (
   closing_costs_percentage numeric,
   
   -- Financial Valuation Fields
+  -- Financial Valuation Fields
   estimated_market_value numeric default 0,
   estimated_rehab_cost numeric default 0,
   stabilized_market_value numeric default 0,
+
+  -- Featured Status
+  is_featured boolean default false,
   
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -100,7 +104,8 @@ insert into listings (
   hoa_fee, association_fee, fees_dues, association_amenities, fee_includes,
   utilities, sewer, water_source, road_surface_type,
   elementary_school, middle_school, high_school,
-  estimated_market_value, estimated_rehab_cost, stabilized_market_value
+  estimated_market_value, estimated_rehab_cost, stabilized_market_value,
+  is_featured
 ) values
 (
   'Modern Geometric Villa', '123 Main St', 'Brooklyn', 'NY', '11201', 850000, 3, 2, 1200, 2015, 'Single Family',
@@ -116,7 +121,8 @@ insert into listings (
   '$250/month', 'N/A', '$250/month', 'Community Garden, Playground', 'Maintenance, Snow Removal',
   'All Public', 'Public Sewer', 'Municipal', 'Paved',
   'PS 321 Brooklyn', 'William Alexander Middle School', 'Berkeley Carroll School',
-  850000, 0, 850000
+  850000, 0, 850000,
+  true
 ),
 (
   'Luxury Glass Estate', '45 Park Avenue', 'Manhattan', 'NY', '10016', 1200000, 2, 2, 950, 2018, 'Condo',
@@ -125,16 +131,16 @@ insert into listings (
   '/images/listings/prop2.jpg',
   'Luxurious Park Avenue condo with breathtaking city views.',
   ARRAY['Doorman Building', 'Gym & Fitness Center', 'Rooftop Lounge', 'Floor-to-Ceiling Windows'],
-  5800, 12000, 1500, 3000, 5100,
+  12000, 1500, 3000, 5100,5800,
   'Modern Glass & Steel', '1,050 sq ft', '950 sq ft', 'Move-in Ready',
   'Central HVAC', 'Central Air, Floor Heating', 'Marble, Hardwood', 'Smart Home System, Walk-in Closets', 'Balcony, Concierge', 'Valet Parking, Underground Garage',
   'Murray Hill', 'N/A (High-Rise Condo)', 'N/A', 'Panoramic City Views',
   '$1,200/month', '$1,200/month', '$1,200/month', 'Doorman, Gym, Rooftop Terrace, Pool', 'All Utilities, Concierge',
   'All Included', 'Building System', 'Building System', 'N/A',
   'PS 116 Manhattan', 'The Salk School of Science', 'Stuyvesant High School',
-  1250000, 25000, 1250000
+  1250000, 25000, 1250000,
+  true
 );
-
 -- Create listing_inquiry table
 create table listing_inquiry (
   id uuid default gen_random_uuid() primary key,
