@@ -3,26 +3,32 @@
 import { useState } from 'react';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+import { z } from 'zod';
+
+const contactSchema = z.object({
+    fullName: z.string().min(2, "Full name is required"),
+    email: z.string().email("Please enter a valid email address"),
+    goal: z.string().min(1, "Please select an investment goal"),
+    message: z.string().max(1000, "Message is too long"),
+    // Honeypot field - should be empty/undefined
+    confirm_email: z.string().optional()
+});
 
 export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         goal: '',
-        message: ''
+        message: '',
+        confirm_email: '' // Honeypot field
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<Record<string, string>>({
         fullName: '',
         email: '',
         goal: ''
     });
-
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -31,7 +37,7 @@ export default function ContactClient() {
             [name]: value
         }));
         // Clear error for the field being edited
-        if (errors[name as keyof typeof errors]) {
+        if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
                 [name]: ''
@@ -43,31 +49,34 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
-
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
+        // Check honeypot first
+        if (formData.confirm_email) {
+            // Silently fail (pretend success)
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                goal: '',
+                message: '',
+                confirm_email: ''
+            });
+            return;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
+        // Validate form with Zod
+        const result = contactSchema.safeParse(formData);
 
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
+        if (!result.success) {
+            const flattened = result.error.flatten();
+            const fieldErrors: Record<string, string> = {};
 
-        setErrors(newErrors);
+            Object.entries(flattened.fieldErrors).forEach(([key, messages]) => {
+                if (messages && messages.length > 0) {
+                    fieldErrors[key] = messages[0];
+                }
+            });
 
-        if (!isValid) {
+            setErrors(fieldErrors);
             return;
         }
 
@@ -96,7 +105,8 @@ export default function ContactClient() {
                     fullName: '',
                     email: '',
                     goal: '',
-                    message: ''
+                    message: '',
+                    confirm_email: ''
                 });
             }
         } catch (error) {
@@ -115,7 +125,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -125,6 +135,17 @@ export default function ContactClient() {
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Honeypot Field */}
+                        <input
+                            type="text"
+                            name="confirm_email"
+                            value={formData.confirm_email}
+                            onChange={handleChange}
+                            className="opacity-0 absolute -left-[9999px]"
+                            tabIndex={-1}
+                            autoComplete="off"
+                        />
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
