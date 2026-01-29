@@ -1,15 +1,26 @@
 "use client";
 
 import { useState } from 'react';
+import { z } from 'zod';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+
+// Zod Schema for validation
+const contactFormSchema = z.object({
+    fullName: z.string().min(1, 'Full name is required'),
+    email: z.string().email('Please enter a valid email address'),
+    goal: z.string().min(1, 'Please select an investment goal'),
+    message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional(),
+    confirm_email: z.string().optional() // Honeypot
+});
 
 export default function ContactClient() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         goal: '',
-        message: ''
+        message: '',
+        confirm_email: '' // Honeypot field
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -18,11 +29,6 @@ export default function ContactClient() {
         email: '',
         goal: ''
     });
-
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -43,31 +49,36 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
+        // Validate form using Zod
+        const result = contactFormSchema.safeParse(formData);
 
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
+        if (!result.success) {
+            const formattedErrors = { fullName: '', email: '', goal: '' };
+            // In Zod 4 (or modern Zod), use .issues. If .errors exists, it might be deprecated or removed.
+            // Adjusting to check issues which is the standard property for ZodIssue[].
+            // If TS complains about issues, we might need to cast or check what properties exist.
+            // Based on previous error, .errors does not exist.
+            const issues = result.error.issues || [];
+            issues.forEach((err) => {
+                if (err.path[0] === 'fullName') formattedErrors.fullName = err.message;
+                if (err.path[0] === 'email') formattedErrors.email = err.message;
+                if (err.path[0] === 'goal') formattedErrors.goal = err.message;
+            });
+            setErrors(formattedErrors);
+            return;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
-
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
-
-        setErrors(newErrors);
-
-        if (!isValid) {
+        // Anti-Spam Check: Honeypot
+        if (formData.confirm_email) {
+            // Silently succeed (don't send to DB)
+            setSubmitStatus('success');
+            setFormData({
+                fullName: '',
+                email: '',
+                goal: '',
+                message: '',
+                confirm_email: ''
+            });
             return;
         }
 
@@ -96,7 +107,8 @@ export default function ContactClient() {
                     fullName: '',
                     email: '',
                     goal: '',
-                    message: ''
+                    message: '',
+                    confirm_email: ''
                 });
             }
         } catch (error) {
@@ -115,7 +127,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -124,7 +136,22 @@ export default function ContactClient() {
 
                 {/* Form Section */}
                 <div className="bg-white p-6 md:p-8 rounded-xl border border-warm-gray-200 shadow-sm">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
+
+                        {/* Honeypot Field - Hidden from real users */}
+                        <div className="opacity-0 absolute -left-[9999px] top-0 pointer-events-none" aria-hidden="true">
+                            <label htmlFor="confirm_email">Please leave this field blank</label>
+                            <input
+                                type="text"
+                                id="confirm_email"
+                                name="confirm_email"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                value={formData.confirm_email}
+                                onChange={handleChange}
+                            />
+                        </div>
+
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
                             <label
