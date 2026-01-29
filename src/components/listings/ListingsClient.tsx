@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ListingsFilter from './ListingsFilter';
 import PropertyGrid from './PropertyGrid';
@@ -47,7 +47,7 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
 
     // Filter logic
     const filteredListings = useMemo(() => {
-        let result = initialListings.filter(listing => {
+        const result = initialListings.filter(listing => {
             // Search Query Filter
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
