@@ -1,18 +1,27 @@
 /**
  * RLS Security Verification Test
- * 
+ *
  * This script tests that the RLS security fixes have been applied correctly.
- * Run this in your browser console or as a Node.js script to verify:
+ * Run this as a Node.js script to verify:
  * 1. Public read access is blocked on all user data tables
  * 2. Public insert access still works (forms can submit data)
+ *
+ * Usage:
+ * NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... node supabase/test_rls_security.js
  */
 
-// Import Supabase client (adjust the import based on your environment)
-import { createClient } from '@supabase/supabase-js';
+/* eslint-disable @typescript-eslint/no-require-imports */
+const { createClient } = require('@supabase/supabase-js');
 
-// REPLACE THESE WITH YOUR ACTUAL VALUES
-const SUPABASE_URL = 'https://bmqmxhmwahdayqrnsdz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtcW14aG13YWhkYXlycXJuc2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0NTA1NTAsImV4cCI6MjA4NDAyNjU1MH0.Y1BsLUeZ2k6NYAMUKPo7U_EJTWHiI1cXHGbqt0QyLdo';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error('❌ Error: Missing environment variables.');
+    console.error('Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    console.error('Example: NEXT_PUBLIC_SUPABASE_URL=... NEXT_PUBLIC_SUPABASE_ANON_KEY=... node supabase/test_rls_security.js');
+    process.exit(1);
+}
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -110,8 +119,12 @@ async function runTests() {
             console.log('   - Forms cannot submit data');
         }
         console.log('\n⚠️  Review the errors above and check your RLS policies.\n');
+        process.exit(1);
     }
 }
 
 // Run the tests
-runTests().catch(console.error);
+runTests().catch(err => {
+    console.error(err);
+    process.exit(1);
+});
