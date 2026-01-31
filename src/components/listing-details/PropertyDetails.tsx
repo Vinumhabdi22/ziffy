@@ -45,29 +45,44 @@ export default function PropertyDetails({ listing }: PropertyDetailsProps) {
                                 ? listing.map_url.match(/src="([^"]+)"/)?.[1] || listing.map_url
                                 : listing.map_url;
 
-                            return mapSrc.includes('google.com/maps/embed') ? (
-                                <iframe
-                                    src={mapSrc}
-                                    width="100%"
-                                    height="100%"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    className="absolute inset-0 z-10"
-                                />
-                            ) : (
+                            // Security: Ensure URL is safe (http/https only)
+                            const isSafeUrl = (url: string) => /^https?:\/\//i.test(url);
+
+                            // Security: Strict check for Google Maps embed
+                            const isGoogleMapsEmbed = (url: string) =>
+                                /^https:\/\/www\.google\.com\/maps\/embed/i.test(url);
+
+                            if (isGoogleMapsEmbed(mapSrc)) {
+                                return (
+                                    <iframe
+                                        src={mapSrc}
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        className="absolute inset-0 z-10"
+                                    />
+                                );
+                            }
+
+                            return (
                                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50 p-6 text-center">
                                     <span className="material-symbols-outlined text-warm-gray-400 text-3xl mb-2">map</span>
                                     <p className="text-warm-gray-500 text-sm mb-3">Map preview not available</p>
-                                    <a
-                                        href={mapSrc}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center px-4 py-2 border border-primary text-sm font-medium rounded-md text-primary bg-white hover:bg-primary-50 transition-colors"
-                                    >
-                                        View on Google Maps
-                                    </a>
+                                    {isSafeUrl(mapSrc) ? (
+                                        <a
+                                            href={mapSrc}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center px-4 py-2 border border-primary text-sm font-medium rounded-md text-primary bg-white hover:bg-primary-50 transition-colors"
+                                        >
+                                            View on Google Maps
+                                        </a>
+                                    ) : (
+                                        <span className="text-xs text-red-500">Invalid Map URL</span>
+                                    )}
                                 </div>
                             );
                         })()}
