@@ -3,9 +3,19 @@
 import { useState } from 'react';
 import contentData from '@/../content/contact.json';
 import { supabase } from '@/utils/supabase/client';
+import { z } from 'zod';
+
+const contactSchema = z.object({
+    fullName: z.string().trim().min(1, 'Full name is required'),
+    email: z.string().trim().min(1, 'Email is required').email('Please enter a valid email address'),
+    goal: z.string().min(1, 'Please select an investment goal'),
+    message: z.string().trim().min(1, 'Message is required').max(1000, 'Message cannot exceed 1000 characters'),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactClient() {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<ContactFormData>({
         fullName: '',
         email: '',
         goal: '',
@@ -13,16 +23,7 @@ export default function ContactClient() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [errors, setErrors] = useState({
-        fullName: '',
-        email: '',
-        goal: ''
-    });
-
-    const validateEmail = (email: string) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(email.trim());
-    };
+    const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -31,7 +32,7 @@ export default function ContactClient() {
             [name]: value
         }));
         // Clear error for the field being edited
-        if (errors[name as keyof typeof errors]) {
+        if (errors[name as keyof ContactFormData]) {
             setErrors(prev => ({
                 ...prev,
                 [name]: ''
@@ -43,34 +44,25 @@ export default function ContactClient() {
         e.preventDefault();
         setSubmitStatus('idle');
 
-        // Validate form
-        const newErrors = { fullName: '', email: '', goal: '' };
-        let isValid = true;
+        // Validate form with Zod
+        const result = contactSchema.safeParse(formData);
 
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-            isValid = false;
-        }
+        if (!result.success) {
+            const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
+            const formattedErrors = result.error.flatten().fieldErrors;
 
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-            isValid = false;
-        }
+            (Object.keys(formattedErrors) as Array<keyof ContactFormData>).forEach((key) => {
+                if (formattedErrors[key] && formattedErrors[key]!.length > 0) {
+                    fieldErrors[key] = formattedErrors[key]![0];
+                }
+            });
 
-        if (!formData.goal) {
-            newErrors.goal = 'Please select an investment goal';
-            isValid = false;
-        }
-
-        setErrors(newErrors);
-
-        if (!isValid) {
+            setErrors(fieldErrors);
             return;
         }
 
+        // Clear errors if valid
+        setErrors({});
         setIsSubmitting(true);
 
         try {
@@ -115,7 +107,7 @@ export default function ContactClient() {
                 {/* Header Section */}
                 <div className="text-center space-y-4 mb-12">
                     <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-text-dark">
-                        Let's <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
+                        Let&apos;s <span style={{ color: '#137fec' }}>Build Your Wealth</span> Together
                     </h1>
                     <p className="text-lg text-warm-gray-600 max-w-md mx-auto leading-relaxed">
                         {header.subtitle}
@@ -216,18 +208,20 @@ export default function ContactClient() {
                                 {form.fields.message.label}
                             </label>
                             <textarea
-                                className="w-full rounded-lg border border-warm-gray-200 bg-background-light px-4 py-3.5 text-base text-text-dark placeholder:text-warm-gray-500 focus:border-emerald-accent focus:ring-1 focus:ring-emerald-accent outline-none resize-none transition-all"
+                                className={`w-full rounded-lg border ${errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-warm-gray-200'} bg-background-light px-4 py-3.5 text-base text-text-dark placeholder:text-warm-gray-500 focus:border-emerald-accent focus:ring-1 focus:ring-emerald-accent outline-none resize-none transition-all`}
                                 id="message"
                                 name="message"
                                 placeholder={form.fields.message.placeholder}
                                 rows={4}
                                 value={formData.message}
                                 onChange={handleChange}
-                                required
                                 maxLength={1000}
                             ></textarea>
-                            <div className="text-xs text-warm-gray-500 text-right">
-                                {formData.message.length}/1000 characters
+                            <div className="flex justify-between w-full">
+                                {errors.message ? <p className="text-red-500 text-sm mt-1">{errors.message}</p> : <div></div>}
+                                <div className="text-xs text-warm-gray-500 text-right mt-1">
+                                    {formData.message.length}/1000 characters
+                                </div>
                             </div>
                         </div>
 
