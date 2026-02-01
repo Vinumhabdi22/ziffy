@@ -1,7 +1,7 @@
 import ContactClient from '@/components/contact/ContactClient';
 
 export const metadata = {
-    title: 'Contact Us | Ziffy AI',
+    title: 'Contact Us | Trustreet',
     description: 'Get in touch with our AI investment specialists. We usually respond within 2 hours.',
 };
 

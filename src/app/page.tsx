@@ -25,7 +25,8 @@ export default async function Home() {
       .select('*')
       // Fetch only listings marked as featured
       // This allows listings to have other badges like "New Listing" or "AI-Verified"
-      .eq('is_featured', true);
+      .eq('is_featured', true)
+      .eq('property_status', 'Active');
 
     if (error) {
       console.error("Error fetching featured listings:", error);

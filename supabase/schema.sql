@@ -80,6 +80,7 @@ create table listings (
 
   -- Featured Status
   is_featured boolean default false,
+  property_status text default 'Draft' check (property_status in ('Draft', 'Active', 'Pending', 'Sold')),
   
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -105,7 +106,8 @@ insert into listings (
   utilities, sewer, water_source, road_surface_type,
   elementary_school, middle_school, high_school,
   estimated_market_value, estimated_rehab_cost, stabilized_market_value,
-  is_featured
+  is_featured,
+  property_status
 ) values
 (
   'Modern Geometric Villa', '123 Main St', 'Brooklyn', 'NY', '11201', 850000, 3, 2, 1200, 2015, 'Single Family',
@@ -122,7 +124,8 @@ insert into listings (
   'All Public', 'Public Sewer', 'Municipal', 'Paved',
   'PS 321 Brooklyn', 'William Alexander Middle School', 'Berkeley Carroll School',
   850000, 0, 850000,
-  true
+  true,
+  'Active'
 ),
 (
   'Luxury Glass Estate', '45 Park Avenue', 'Manhattan', 'NY', '10016', 1200000, 2, 2, 950, 2018, 'Condo',
@@ -139,7 +142,8 @@ insert into listings (
   'All Included', 'Building System', 'Building System', 'N/A',
   'PS 116 Manhattan', 'The Salk School of Science', 'Stuyvesant High School',
   1250000, 25000, 1250000,
-  true
+  true,
+  'Active'
 );
 -- Create listing_inquiry table
 create table listing_inquiry (
@@ -253,7 +257,7 @@ create policy "Allow public read access"
 
 -- Insert sample data
 insert into faqs (question, answer, display_order) values
-('What is Ziffy AI?', 'Ziffy AI is a platform that uses artificial intelligence to help you find the best real estate investment opportunities.', 1),
+('What is Trustreet?', 'Trustreet is a platform that uses artificial intelligence to help you find the best real estate investment opportunities.', 1),
 ('How do I start investing?', 'Simply browse our marketplace, select a property that fits your criteria, and click "Request Details".', 2),
 ('Are the listings verified?', 'Yes, all our listings are verified by our team and our AI algorithms.', 3);
 
@@ -279,3 +283,74 @@ create policy "Allow public insert access"
 -- SECURITY: No public read access - only service_role can read contact data
 -- Public users can still submit inquiries via the form (see "Allow public insert access" policy above)
 
+
+-- Create city_defaults table
+create table city_defaults (
+  city_id numeric primary key,
+  city_name text not null,
+  state_code text not null,
+  zip_code text not null,
+  property_tax_rate numeric not null,
+  insurance_rate numeric not null,
+  avg_appreciation_rate numeric not null,
+  avg_rent_growth_rate numeric not null,
+  vacancy_rate numeric not null,
+  property_management_rate numeric not null,
+  maintenance_rate numeric not null,
+  capex_reserve_rate numeric not null,
+  avg_market_cap_rate numeric not null,
+  median_home_price numeric not null,
+  median_rent numeric not null,
+  rent_to_price_ratio numeric not null,
+  population_growth_rate numeric not null,
+  job_growth_rate numeric not null,
+  last_updated text not null,
+  data_source text not null,
+  closing_costs_percentage numeric not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Turn on Row Level Security
+alter table city_defaults enable row level security;
+
+-- Create a policy that allows anyone to read
+create policy "Allow public read access"
+  on city_defaults
+  for select
+  using (true);
+
+-- Insert initial data
+insert into city_defaults (
+  city_id, city_name, state_code, zip_code,
+  property_tax_rate, insurance_rate, avg_appreciation_rate, avg_rent_growth_rate,
+  vacancy_rate, property_management_rate, maintenance_rate, capex_reserve_rate,
+  avg_market_cap_rate, median_home_price, median_rent, rent_to_price_ratio,
+  population_growth_rate, job_growth_rate, last_updated, data_source, closing_costs_percentage
+) values
+(
+  0, 'National Average', 'US', '00000',
+  0.012, 0.005, 0.035, 0.03,
+  0.05, 0.08, 0.05, 0.05,
+  0.06, 400000, 2000, 0.005,
+  0.01, 0.015, '2026-01-31', 'Trustreet Internal', 0.03
+),
+(
+  101, 'Somerville', 'TN', '38135',
+  0.0065, 0.0040, 0.030, 0.020,
+  0.050, 0.080, 0.050, 0.050,
+  0.075, 350000, 1800, 0.062,
+  0.015, 0.020, '2026-01-15', 'internal assumptions', 0.02
+),
+(
+  102, 'Brooklyn', 'NY', '11201',
+  0.019, 0.006, 0.045, 0.035,
+  0.03, 0.06, 0.04, 0.04,
+  0.045, 950000, 3500, 0.044,
+  0.005, 0.025, '2026-01-31', 'Trustreet Internal', 0.04
+),
+(
+  103, 'Manhattan', 'NY', '10016',
+  0.020, 0.005, 0.040, 0.040,
+  0.04, 0.05, 0.03, 0.03,
+  0.04, 1300000, 4200, 0.038, -0.01, 0.02, '2026-01-31', 'Trustreet Internal', 0.05
+);

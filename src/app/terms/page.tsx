@@ -1,8 +1,8 @@
 import termsContent from '@/../content/terms.json';
 
 export const metadata = {
-    title: 'Terms of Service | Ziffy AI',
-    description: 'Read the Terms of Service for using the Ziffy AI real estate investment platform.',
+    title: 'Terms of Service | Trustreet',
+    description: 'Read the Terms of Service for using the Trustreet real estate investment platform.',
 };
 
 export default function TermsPage() {

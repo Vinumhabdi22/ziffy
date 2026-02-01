@@ -3,8 +3,8 @@ import FAQClient from '@/components/faq/FAQClient';
 import { FAQ } from '@/types';
 
 export const metadata = {
-    title: 'Frequently Asked Questions | Ziffy AI',
-    description: 'Find answers to common questions about investing with Ziffy AI.',
+    title: 'Frequently Asked Questions | Trustreet',
+    description: 'Find answers to common questions about investing with Trustreet.',
 };
 
 export default async function FAQPage() {
@@ -34,7 +34,7 @@ export default async function FAQPage() {
                             Frequently Asked <span className="text-emerald-accent">Questions</span>
                         </h1>
                         <p className="text-lg text-warm-gray-500 max-w-2xl mx-auto">
-                            Everything you need to know about Ziffy AI and real estate investing.
+                            Everything you need to know about Trustreet and real estate investing.
                             Can&apos;t find the answer you&apos;re looking for? Contact our support team.
                         </p>
                     </div>

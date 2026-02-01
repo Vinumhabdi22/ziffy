@@ -12,7 +12,7 @@ export default function Footer() {
                                     real_estate_agent
                                 </span>
                             </div>
-                            <h3 className="text-xl font-bold">Ziffy Real Estate</h3>
+                            <h3 className="text-xl font-bold">Trustreet</h3>
                         </div>
                         <p className="text-gray-600 text-sm text-center md:text-left max-w-xs">
                             Democratizing real estate investment through artificial
@@ -58,7 +58,7 @@ export default function Footer() {
                 </div>
                 <div className="mt-4 pt-4 border-t border-gray-200 text-center">
                     <p className="text-gray-400 text-sm">
-                        © 2026 Ziffy Real Estate Platform. All rights reserved.
+                        © 2026 Trustreet Platform. All rights reserved.
                     </p>
                 </div>
             </div>

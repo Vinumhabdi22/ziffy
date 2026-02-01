@@ -21,7 +21,7 @@ export default function Header() {
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold tracking-tight text-black">
-                                Ziffy AI
+                                Trustreet
                             </h2>
                         </div>
                     </div>

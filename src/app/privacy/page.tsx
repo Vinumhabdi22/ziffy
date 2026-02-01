@@ -1,8 +1,8 @@
 import privacyContent from '@/../content/privacy.json';
 
 export const metadata = {
-    title: 'Privacy Policy | Ziffy AI',
-    description: 'Learn about how Ziffy AI collects, uses, and protects your personal information.',
+    title: 'Privacy Policy | Trustreet',
+    description: 'Learn about how Trustreet collects, uses, and protects your personal information.',
 };
 
 export default function PrivacyPage() {

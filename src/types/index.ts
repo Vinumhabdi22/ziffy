@@ -6,6 +6,10 @@ export interface InvestmentMetrics {
     totalReturn5Yr: string;
     year1ROI: string;
     monthlyCashFlow: string;
+    estimatedMarketValue?: string;
+    stabilizedMarketValue?: string;
+    estimatedRehabCost?: string;
+    builtInEquity?: string;
 }
 
 export interface Financials {
@@ -16,6 +20,7 @@ export interface Financials {
         insurance: string;
         maintenance: string;
         management: string;
+        capex: string; // Added
     };
     netOperatingIncome: string;
     debtService: string;
@@ -124,6 +129,7 @@ export interface Listing {
 
     // Featured Status
     is_featured?: boolean;
+    property_status?: 'Draft' | 'Active' | 'Pending' | 'Sold';
 
     // Optional / Calculated / Legacy support
     capRate?: string; // string for display
@@ -147,6 +153,7 @@ export interface CalculatorValues {
     utilities: number;
     gardener: number;
     trash: number;
+    capex: number; // Added
 }
 
 export interface CalculatorSetters {
@@ -163,6 +170,7 @@ export interface CalculatorSetters {
     setUtilities: (val: number) => void;
     setGardener: (val: number) => void;
     setTrash: (val: number) => void;
+    setCapex: (val: number) => void; // Added
 }
 
 export interface FAQ {

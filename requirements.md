@@ -1,0 +1,283 @@
+📘 **Property Listings & Property Details — Functional Requirements**
+
+### 1️⃣ Property Listings Page
+
+**Required Metrics (Per Property)**
+
+**Existing Metrics**
+
+* Purchase Price: $300,000
+* Property Details:
+
+  * Beds
+  * Baths
+  * Sqft
+
+**New Field**
+
+* Year Built
+
+**Additional Metrics**
+⚠️ These metrics must be displayed in two rows to avoid overlap when values are large.
+
+**Row 1**
+
+* Initial Offer Price: $275,000
+* Estimated Rent: $1,350
+* Built-In Equity (vs Market): $25,000
+  Tooltip example: Difference between estimated market value and initial offer price.
+
+**Row 2**
+
+* Cap Rate: 8.1%
+* Cash-on-Cash Return: 12.4%
+* Gross Yield: 9.6%
+
+**Tooltip Requirement**
+
+* All metrics on the listing page must include tooltips
+* Tooltips should explain how the value is calculated or what it represents
+* Simple, investor-friendly language should be used
+
+---
+
+### 2️⃣ Property Details Page
+
+**Tabs Structure**
+
+Add two tabs:
+
+**Tab 1: Details**
+
+1. Property Overview
+
+   * Bedrooms
+   * Bathrooms
+   * Sqft
+   * Year Built (new)
+
+2. Property Summary
+
+   * Text summary describing the property
+
+3. Location Summary
+
+   * City / neighborhood summary
+
+**Tab 2: Financials**
+
+* Show all financial information currently available in the system
+* Organized using expandable sections
+
+---
+
+### 3️⃣ Top Metrics Section (Property Details Page)
+
+Display at top:
+
+* All metrics shown on the listing page
+* Estimated Market Value (EMV)
+* Stabilized Market Value (SMV)
+* Estimated Rehab Cost
+* Built-In Equity (vs Market)
+
+**UI Requirements**
+
+* Reduce size of metric cards
+* All fields must include tooltips
+
+Tooltip reference example:
+[https://www.stessa.com/investment-properties/6894-hedgewood-ln-bartlett-tn-38135/details/uvUjoM7NxGiD](https://www.stessa.com/investment-properties/6894-hedgewood-ln-bartlett-tn-38135/details/uvUjoM7NxGiD)
+
+---
+
+### 4️⃣ City-Level Default Values Table (New)
+
+**Purpose**
+
+* Auto-populate assumptions based on property’s city
+* Admin can manually override only when needed
+* Reduce manual data entry
+
+**Mandatory Fields Only**
+
+* Property Address
+* Purchase Price
+* Estimated Offer Price
+* Estimated Market Rent (monthly)
+* Estimated Rehab Cost
+
+All others optional or auto-derived.
+
+**City Table Schema Example**
+
+```
+city_id: 101
+city_name: "Somerville"
+state_code: "TN"
+zip_code: "38135"
+property_tax_rate: 0.0065
+insurance_rate: 0.0040
+avg_appreciation_rate: 0.030
+avg_rent_growth_rate: 0.020
+vacancy_rate: 0.050
+property_management_rate: 0.080
+maintenance_rate: 0.050
+capex_reserve_rate: 0.050
+avg_market_cap_rate: 0.075
+median_home_price: 350000
+median_rent: 1800
+rent_to_price_ratio: 0.062
+population_growth_rate: 0.015
+job_growth_rate: 0.020
+last_updated: "2026-01-15"
+data_source: "internal assumptions"
+```
+
+---
+
+### 5️⃣ Tax Savings Calculation
+
+Depreciation formula:
+
+* Depreciable Value = 80% × Initial Offer Price
+* Annual Depreciation = Depreciable Value ÷ 27.5
+* Tax Savings = Annual Depreciation × 0.25
+
+Assumption: Tax rate = 25%
+
+---
+
+### 6️⃣ Expandable Section Design
+
+* Show high-level summary metrics
+* Include expandable “View Details”
+* Default view clean and beginner-friendly
+
+---
+
+### 7️⃣ Financial Analysis Section
+
+**High-Level Metrics (Always Visible)**
+
+* Gross Income
+* Total Expenses
+* Net Operating Income (NOI)
+* Cash Flow
+
+Tooltips required.
+Calculations must use City Table default rates.
+
+**Expandable Sections**
+
+* Expense Breakdown Details
+* Cash Flow Details
+
+---
+
+### 8️⃣ Financing Information
+
+**Summary View**
+
+* Total Loan Amount
+* Total Monthly Payment
+
+**Expandable: View Financing Details**
+
+* Show all financing details
+* Remove Loan Origination Fee
+* Use Closing Costs from city-level percentage
+
+---
+
+### 9️⃣ Cash Required at Close
+
+**Summary**
+
+* Net Cash Required at Closing
+
+**Expandable Details**
+
+* Down Payment
+* Closing Costs
+* Estimated Rehab Cost
+
+---
+
+### 🔟 Investment Analysis — Monthly Cash Flow
+
+**Operating Revenue**
+
+* Show only Net Monthly Income
+
+**Operating Expenses**
+
+* Show only Total Monthly Expenses
+
+Expandable for breakdown.
+
+Remove from UI (keep in DB):
+
+* Trash
+* Utilities
+* Gardener
+
+All calculations use City Table defaults.
+
+---
+
+### 1️⃣1️⃣ Investment Analysis — Year 1 ROI
+
+* Return on Cash Invested (including tax savings)
+
+Rules:
+
+* Include depreciation tax savings
+* Exclude appreciation (industry standard for Year 1)
+
+Expandable breakdown.
+
+---
+
+### 1️⃣2️⃣ Investment Analysis — Year 5 ROI
+
+Same structure as Year 1 ROI, but:
+
+* Include appreciation for 5 years
+* Include rent growth
+* Include tax benefits
+
+Expandable breakdown.
+
+---
+
+### 1️⃣3️⃣ Financial Projections
+
+* Expandable section: “View Financial Projections”
+* Visible for advanced users only
+
+---
+
+### 1️⃣4️⃣ Facts & Features Section
+
+Add text:
+
+“The link below is generated by our AI system based on the property address and directs you to an external listing website where you can review full property details, photos, and history.”
+
+Button label: **View Property Details**
+
+**Behavior**
+
+* Redirects to external listing site
+* URL stored in Supabase and fetched dynamically
+
+---
+
+### ✅ Overall Design Goals
+
+* Minimize Admin Panel data entry
+* Use city-level defaults
+* Clean UI with expandable sections
+* Beginner-friendly + advanced investor depth
+* Industry-standard financial calculations
+* Scalable for multi-city expansion

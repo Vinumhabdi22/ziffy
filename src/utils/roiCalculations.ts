@@ -88,7 +88,8 @@ export function calculateYear1ROI(inputs: ROICalculationInputs): ROICalculationR
     const builtInEquity = stabilizedMarketValue - purchasePrice - estimatedRehabCost;
 
     // Total annual return (without tax savings, but with Built-In Equity)
-    const totalAnnualReturn = annualCashFlow + annualLoanPaydown + annualAppreciation + builtInEquity;
+    // Exclude Appreciation for Year 1 ROI as per requirements
+    const totalAnnualReturn = annualCashFlow + annualLoanPaydown + builtInEquity;
 
     // Total annual return (with tax savings)
     const totalAnnualReturnWithTax = totalAnnualReturn + taxSavings;

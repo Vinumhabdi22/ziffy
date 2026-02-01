@@ -4,6 +4,7 @@ import ListingDetailsClient from '@/components/listing-details/ListingDetailsCli
 import { Listing } from '@/types';
 import { notFound } from 'next/navigation';
 import { parseListingSlug, generateListingSlug } from '@/utils/listingUtils';
+import { getCityDefaults } from '@/utils/cityDefaults';
 
 export async function generateStaticParams() {
     // Fetch all listings and generate slugs for static generation
@@ -42,6 +43,9 @@ export default async function ListingDetailsPage({ params }: { params: Promise<{
 
     const listing = data as unknown as Listing;
 
+    // Fetch city defaults
+    const cityDefaults = await getCityDefaults(listing.city, listing.zipcode);
+
     return (
         <>
             {/* Breadcrumbs - Keep Server Side for SEO */}
@@ -56,7 +60,7 @@ export default async function ListingDetailsPage({ params }: { params: Promise<{
             </div>
 
             {/* Client Wrapper for stateful calculator */}
-            <ListingDetailsClient listing={listing} />
+            <ListingDetailsClient listing={listing} cityDefaults={cityDefaults} />
         </>
     );
 }

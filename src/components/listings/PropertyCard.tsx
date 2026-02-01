@@ -6,12 +6,14 @@ import { Listing } from '@/types';
 import { generateListingSlug } from '@/utils/listingUtils';
 import { calculateYear1ROI } from '@/utils/roiCalculations';
 
+
 interface PropertyCardProps {
     listing: Listing;
 }
 
 export default function PropertyCard({ listing }: PropertyCardProps) {
     const [isFavorite, setIsFavorite] = useState(false);
+
 
     let badgeClasses = "bg-gray-800/80 text-white";
     let icon = "";
@@ -41,7 +43,7 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
 
     const formatPercent = (val: number) => `${val?.toFixed(1)}%`;
 
-    // Calculate Year 1 ROI including Tax Savings using shared utility
+    // Calculate Metrics
     const annualExpenses = (listing.expense_tax || 0) + (listing.expense_insurance || 0) +
         (listing.expense_maintenance || 0) + (listing.expense_management || 0) +
         (listing.expense_hoa || 0) + (listing.expense_utilities || 0) +
@@ -59,13 +61,24 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
         estimatedRehabCost: listing.estimated_rehab_cost || 0
     });
 
-    // Use Year 1 ROI including Tax Savings
-    const year1ROI = roiResults.returnOnCashInvestedWithTax;
+    // Row 1 Metrics
+    // Initial Offer Price: Generally Purchase Price unless specified otherwise
+    const initialOfferPrice = listing.price;
+    const estimatedRent = listing.estimated_rent;
+    // Built-In Equity (vs Market) = Est Market Value - Initial Offer Price
+    const builtInEquity = (listing.estimated_market_value || listing.price) - initialOfferPrice;
 
-    // Calculate Cap Rate for display
+    // Row 2 Metrics
     const annualRent = (listing.estimated_rent || 0) * 12;
     const noi = annualRent - annualExpenses;
     const capRate = listing.price ? (noi / listing.price) * 100 : 0;
+
+    // Cash-on-Cash Return: Using pre-tax return on cash invested as standard CoC
+    // Note: User feedback suggested 'cashOnCashReturn' but property on utility is 'returnOnCashInvested'
+    const cashOnCash = roiResults.returnOnCashInvested;
+
+    // Gross Yield = (Annual Rent / Purchase Price) * 100
+    const grossYield = listing.price ? (annualRent / listing.price) * 100 : 0;
 
 
     return (
@@ -73,8 +86,9 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
             {/* Image Section */}
             <div className="relative w-full aspect-[16/9] bg-warm-gray-100 overflow-hidden">
                 <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 cursor-pointer"
                     style={{ backgroundImage: `url('${listing.gallery?.[0] || listing.image}')` }}
+
                 ></div>
                 {listing.badge && (
                     <div className="absolute top-3 left-3 flex gap-2">
@@ -103,54 +117,112 @@ export default function PropertyCard({ listing }: PropertyCardProps) {
                         <h3 className="text-text-dark text-lg font-bold leading-tight tracking-tight">{listing.address}</h3>
                         <p className="text-warm-gray-500 text-sm">{listing.city}, {listing.state} {listing.zipcode || ''}</p>
                     </div>
-                    <p className="text-primary text-xl font-extrabold">{formatCurrency(listing.price)}</p>
-                </div>
-
-                <div className="flex items-center gap-4 text-sm text-warm-gray-600 my-3">
-                    <div className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[18px] text-warm-gray-400">bed</span>
-                        <span className="font-semibold">{listing.beds}</span> Bed
-                    </div>
-                    <div className="w-px h-4 bg-warm-gray-300"></div>
-                    <div className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[18px] text-warm-gray-400">bathtub</span>
-                        <span className="font-semibold">{listing.baths}</span> Bath
-                    </div>
-                    <div className="w-px h-4 bg-warm-gray-300"></div>
-                    <div className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[18px] text-warm-gray-400">square_foot</span>
-                        <span className="font-semibold">{listing.sqft.toLocaleString()}</span> Sqft
+                    <div className="text-right">
+                        <p className="text-warm-gray-400 text-xs font-medium uppercase tracking-wide">Purchase Price</p>
+                        <p className="text-primary text-xl font-extrabold">{formatCurrency(listing.price)}</p>
                     </div>
                 </div>
 
-                {/* Financial Footer */}
-                <div className="mt-auto pt-4 border-t border-warm-gray-100">
-                    <div className="grid grid-cols-5 gap-2 bg-gray-50 rounded-lg p-3">
-                        <div className="flex flex-col items-center border-r border-warm-gray-200">
-                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">EMV</span>
-                            <span className="text-text-dark text-sm font-bold">{formatCurrency(listing.estimated_market_value || 0)}</span>
+                {/* Property Stats (Beds, Baths, Sqft, Year) - Optimized Grid Layout */}
+                <div className="grid grid-cols-4 gap-2 py-3 border-y border-warm-gray-100 my-3">
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center gap-1 text-warm-gray-600">
+                            <span className="material-symbols-outlined text-[18px] text-warm-gray-400">bed</span>
+                            <span className="font-bold text-text-dark text-sm">{listing.beds}</span>
                         </div>
-                        <div className="flex flex-col items-center border-r border-warm-gray-200">
-                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Equity</span>
-                            <span className={`text-sm font-bold ${roiResults.builtInEquity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {formatCurrency(roiResults.builtInEquity)}
+                        <span className="text-[10px] uppercase text-warm-gray-400 font-medium tracking-wide">Beds</span>
+                    </div>
+
+                    <div className="flex flex-col items-center border-l border-warm-gray-100">
+                        <div className="flex items-center gap-1 text-warm-gray-600">
+                            <span className="material-symbols-outlined text-[18px] text-warm-gray-400">bathtub</span>
+                            <span className="font-bold text-text-dark text-sm">{listing.baths}</span>
+                        </div>
+                        <span className="text-[10px] uppercase text-warm-gray-400 font-medium tracking-wide">Baths</span>
+                    </div>
+
+                    <div className="flex flex-col items-center border-l border-warm-gray-100">
+                        <div className="flex items-center gap-1 text-warm-gray-600">
+                            <span className="material-symbols-outlined text-[18px] text-warm-gray-400">square_foot</span>
+                            <span className="font-bold text-text-dark text-sm">{listing.sqft.toLocaleString()}</span>
+                        </div>
+                        <span className="text-[10px] uppercase text-warm-gray-400 font-medium tracking-wide">Sqft</span>
+                    </div>
+
+                    {listing.year_built && (
+                        <div className="flex flex-col items-center border-l border-warm-gray-100">
+                            <div className="flex items-center gap-1 text-warm-gray-600">
+                                <span className="material-symbols-outlined text-[18px] text-warm-gray-400">calendar_month</span>
+                                <span className="font-bold text-text-dark text-sm">{listing.year_built}</span>
+                            </div>
+                            <span className="text-[10px] uppercase text-warm-gray-400 font-medium tracking-wide">Year</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Financial Footer - 2 Rows */}
+                <div className="mt-auto space-y-3 pt-1">
+                    {/* Row 1: Initial Offer, Est Rent, Built-In Equity */}
+                    <div className="grid grid-cols-3 gap-2 bg-gray-50 rounded-lg p-2">
+                        <div className="flex flex-col items-center border-r border-warm-gray-200 relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Init Offer</span>
+                            <span className="text-text-dark text-sm font-bold">{formatCurrency(initialOfferPrice)}</span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-40 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Suggested initial offer price for the property.
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center border-r border-warm-gray-200 relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Est Rent</span>
+                            <span className="text-text-dark text-sm font-bold">{formatCurrency(estimatedRent)}</span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-40 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Estimated monthly rental income based on market data.
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Equity</span>
+                            <span className={`text-sm font-bold ${builtInEquity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {formatCurrency(builtInEquity)}
                             </span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-48 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Difference between estimated market value and initial offer price.
+                            </div>
                         </div>
-                        <div className="flex flex-col items-center border-r border-warm-gray-200">
-                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Rent</span>
-                            <span className="text-text-dark text-sm font-bold">{formatCurrency(listing.estimated_rent)}</span>
-                        </div>
-                        <div className="flex flex-col items-center border-r border-warm-gray-200">
-                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">ROI</span>
-                            <span className="text-green-600 text-sm font-extrabold">{formatPercent(year1ROI)}</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-[11px] uppercase tracking-wide text-warm-gray-500 font-semibold">Cap Rate</span>
+                    </div>
+
+                    {/* Row 2: Cap Rate, Cash-on-Cash, Gross Yield */}
+                    <div className="grid grid-cols-3 gap-2 bg-gray-50 rounded-lg p-2">
+                        <div className="flex flex-col items-center border-r border-warm-gray-200 relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Cap Rate</span>
                             <span className="text-primary text-sm font-bold">{formatPercent(capRate)}</span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-48 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Net Operating Income divided by Purchase Price. Indicates potential return.
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center border-r border-warm-gray-200 relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Cash Return</span>
+                            <span className="text-green-600 text-sm font-bold">{formatPercent(cashOnCash)}</span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-48 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Annual Pre-Tax Cash Flow divided by Total Cash Invested.
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center relative group/tooltip">
+                            <span className="text-[10px] uppercase tracking-wide text-warm-gray-500 font-semibold cursor-help border-b border-dashed border-warm-gray-400">Gross Yield</span>
+                            <span className="text-text-dark text-sm font-bold">{formatPercent(grossYield)}</span>
+                            {/* Tooltip */}
+                            <div className="absolute bottom-full mb-2 hidden group-hover/tooltip:block w-40 bg-gray-800 text-white text-xs rounded p-2 z-20 text-center shadow-lg pointer-events-none">
+                                Annual Gross Income divided by Purchase Price.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </Link>
     );
 }

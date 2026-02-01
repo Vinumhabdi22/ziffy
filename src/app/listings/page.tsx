@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 // Mock filters for now, or fetch from DB if we had a filters table. 
 // Since filters are UI options, they can remain hardcoded or derived.
 const FILTERS = {
-    status: ["Active", "Pending", "Sold"],
+    status: ["Active"], // Only Active properties are visible
     priceRange: ["Under $100k", "$100k - $500k", "$500k - $1M", "$1M+"],
     propertyType: ["Single Family", "Multi Family", "Commercial", "Land"],
     capRate: ["3% - 5%", "5% - 7%", "7% - 9%", "9%+"]
@@ -31,7 +31,10 @@ export default async function ListingsPage() {
     let count = "Loading...";
 
     try {
-        const { data, error } = await supabase.from('listings').select('*');
+        const { data, error } = await supabase
+            .from('listings')
+            .select('*')
+            .eq('property_status', 'Active');
         if (error) {
             console.error("Error fetching listings:", error);
         } else {

@@ -62,7 +62,7 @@ export default function ListingsClient({ initialListings, filtersData }: Listing
 
             // Status Filter
             if (selectedFilters.status.length > 0) {
-                const status = "Active"; // Placeholder
+                const status = listing.property_status || "Draft";
                 if (!selectedFilters.status.includes(status)) return false;
             }
 
